@@ -1,8 +1,6 @@
 @extends('admin.dashboard')
 @section('admin')
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <div class="page-content"> 
 	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 		<div class="breadcrumb-title pe-3">Detail  </div>
@@ -25,35 +23,52 @@
             < Back
         </button>
     </a>
-
 	
-	<form id="editForm" method="post" action="{{ route('store.text') }}" class="editForm">
-		@csrf
-
-		<input type="hidden" name="id" value="{{ $note->id }}">
-		
-		<div class="row mb-3">
-			<div class="form-group col-sm-12 text-secondary">
-				
-				<br />
-				<div class="radioContainer">
-					<input type="radio" name="type" value="text" checked> Text
-					<p> &nbsp; </p>
-					<input type="radio" name="type" value="code"> Code
+	<div id="editFormContainer" class="editFormContainer">
+		<form id="editForm" method="post" action="{{ route('update.text') }}" class="editForm">
+			@csrf
+			<div class="closeContainer">
+				<div onclick="$().closeForm()" class="closeEdit">close</div>
+			</div>
+			<input type="hidden" name="id" id="editId">
+			<input type="hidden" name="note_id" value="{{$note->id}}">
+			
+			<div class="row mb-3">
+				<div class="form-group col-sm-12 text-secondary">
+					<textarea name="text" id="editTextarea" class="form-control editTextarea" rows="3" required></textarea>
 				</div>
-				<br />
-				<textarea name="text" class="form-control" rows="3" required></textarea>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-sm-12 text-secondary">
-				<input type="submit" class="btn btn-primary px-4 saveButton" value="+ Add" />
+			<div class="row">
+				<div class="col-sm-12 text-secondary">
+					<input type="submit" class="btn btn-primary px-4 saveButton" value="Save" />
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 
+	<div id="titleFormContainer" class="editFormContainer">
+		<form id="titleForm" method="post" action="{{ route('update.note') }}" class="editForm">
+			@csrf
+			<div class="closeContainer">
+				<div onclick="$().closeForm()" class="closeEdit">close</div>
+			</div>
 
+			<input type="hidden" name="id" value="{{$note->id}}">
+			
+			<div class="row mb-3">
+				<div class="form-group col-sm-12 text-secondary">
+					<input type="text" name="name" class="form-control editInput" value="{{ $note->name }}" required>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 text-secondary">
+					<input type="submit" class="btn btn-primary px-4 saveButton" value="Save" />
+				</div>
+			</div>
+		</form>
+	</div>
 
     <div class="containerBody">
 		<div class="main-body">
@@ -79,7 +94,13 @@
 											<img src="{{ asset($category->image) }}" class="categoryIcon">  
 										@endif
 									@endforeach
-									<h5>{{ $note->name }}</h5>
+									<h5>{{ $note->name }}
+									
+										<a href="#" onclick="$().openTitleForm()">
+											<i class="bx bx-pencil"></i>
+										</a>
+									
+									</h5>
 								</div>
 							</div>
 
@@ -122,8 +143,9 @@
 
 
 							@foreach ($texts as $text)
+								<input type="hidden" id="type{{$text->id}}" value="{{ $text->type }}">
 								@if ($text->type === "text")
-									<p>{{ $text->text }}</p>
+									<p id="text{{ $text->id }}">{{ $text->text }}</p>
 								@else
 									<button class="btn-copy" data-clipboard-target="#code{{ $text->id }}">Copy</button>
 									<pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{{ $text->text }}</code></pre>
@@ -234,14 +256,49 @@
 		{
 			$.fn.openEditForm = function(id) 
 			{
-				const editForm = $('#editForm');
+				const type = $('#type'+id).val();
 
-				editForm.css('display','block');
+				const editForm = $('#editFormContainer');
+				editForm.css('display','flex');
+
+				const editTextarea = $('#editTextarea');
+				
+				$('#editId').val(id);
+				if(type==="text"){
+					editTextarea.html($('#text'+id).html());
+				}
+				else{
+					editTextarea.html($('#code'+id).html());
+				}
 			}
 		})(jQuery);	
 
-		
+		(function($) 
+		{
+			$.fn.closeForm = function() 
+			{
+				const editForm = $('#editFormContainer');
+				editForm.css('display','none');
+			}
+		})(jQuery);	
 
+		(function($) 
+		{
+			$.fn.openTitleForm = function() 
+			{
+				const editForm = $('#titleFormContainer');
+				editForm.css('display','flex');
+			}
+		})(jQuery);	
+
+		(function($) 
+		{
+			$.fn.closeTitleForm = function() 
+			{
+				const editForm = $('#titleFormContainer');
+				editForm.css('display','none');
+			}
+		})(jQuery);	
 	});
 </script>
 

@@ -28,6 +28,7 @@ $currentLocale = app()->getLocale();
 	<link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<title>Programming notes</title>
 </head>
 
@@ -58,6 +59,18 @@ $currentLocale = app()->getLocale();
 	<script src="{{asset('backend/assets/plugins/sparkline-charts/jquery.sparkline.min.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/jquery-knob/excanvas.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/jquery-knob/jquery.knob.js')}}"></script>
+
+
+
+	
+	<script src="http://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
+
+
+
+
 	<script>
 		$(function() {
 			$(".knob").knob();

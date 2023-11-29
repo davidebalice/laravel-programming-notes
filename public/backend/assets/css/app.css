@@ -2639,23 +2639,93 @@ input.search-control-2::placeholder {
     background: #37cf27;
     border-color: #37cf27;
 }
-.radioContainer{
-    display:flex;
-    gap:10px;
+.radioContainer {
+    display: flex;
+    gap: 10px;
     align-items: center;
     font-size: 14px;
 }
 .radioContainer input[type="radio"] {
-   width:20px;
-   height:20px
+    width: 20px;
+    height: 20px;
 }
-.editForm{
-    position: absolute;
-    background: #fff;
+.editFormContainer {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.8);
     z-index: 1000;
-    width:90%;
-    max-width: 800px;
-    height:50%;
-    min-width: 450px;
+    width: 100%;
+    height: 100%;
     display: none;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.editForm {
+    background: #fff;
+    width: 90%;
+    max-width: 800px;
+    min-height: 200px;
+    min-width: 500px;
+    margin: 0 auto;
+    border-radius: 6px;
+    padding: 20px;
+}
+.editTextarea {
+    background: #f1f1f1;
+    min-height: 200px !important;
+}
+.editInput {
+    background: #f1f1f1;
+    padding:22px;
+}
+.search-container {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-box {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.search-button {
+    border: none;
+    background-color: #4285f4;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #2d74da;
+}
+
+.closeEdit {
+    right: 0;
+    width: 80px;
+    text-align: center;
+    margin-bottom: 12px;
+    background: #555;
+    color: #fff;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.closeEdit:hover {
+    background: #777;
+}
+
+.closeContainer{
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }

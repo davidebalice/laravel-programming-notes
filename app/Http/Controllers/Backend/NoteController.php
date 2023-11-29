@@ -102,6 +102,7 @@ class NoteController extends Controller
             'message' => 'Note created',
             'alert-type' => 'success'
         );
+        $this->Autocomplete();
         return redirect()->route('notes')->with($notification); 
     }
 
@@ -226,185 +227,47 @@ class NoteController extends Controller
     }
 
     public function Edit($id){
-        $products = Product::findOrFail($id);
-        $gallery = Gallery::where('product_id',$id)->get();
-        $activeVendor = User::where('status','active')->where('role','vendor')->latest()->get();
-        $brands = Brand::latest()->get();
-        $categories = Category::latest()->get();
-        $subcategory = SubCategory::where('category_id',$products->category_id)->latest()->get(); 
-        return view('backend.product.edit',compact('brands','categories','activeVendor','products','subcategory','gallery'));
+        $notes = Note::findOrFail($id);
+        return view('backend.notes.edit',compact('notes'));
     }
 
-    public function Update(Request $request){
-        $product_id = $request->id;
-        Product::findOrFail($product_id)->update([
-        'brand_id' => $request->brand_id,
-        'category_id' => $request->category_id,
-        'subcategory_id' => $request->subcategory_id,
-        'name' => $request->name,
-        'slug' => strtolower(str_replace(' ','-',$request->name)),
+    public function UpdateNote(Request $request){
+            $note_id = $request->id;
+            Note::findOrFail($note_id)->update([
+            'name' => $request->name,
+            ]);
 
-        'code' => $request->code,
-        'qty' => $request->qty,
-        'tags' => $request->tags,
-        'size' => $request->size,
-        'color' => $request->color,
-
-        'price' => $request->price,
-        'discount_price' => $request->discount_price,
-        'short_desc' => $request->short_desc,
-        'long_desc' => $request->long_desc, 
-
-        'hot_deals' => $request->hot_deals,
-        'featured' => $request->featured,
-        'special_offer' => $request->special_offer,
-        'special_deals' => $request->special_deals, 
-
-        'vendor_id' => $request->vendor_id,
-        'status' => 1,
-        'created_at' => Carbon::now(), 
-        ]);
-
-        $notification = array(
-        'message' => 'Product updated',
-        'alert-type' => 'success'
-    );
-
-    return redirect()->route('products')->with($notification); 
-
-    }
-
-    public function Gallery($id){
-        $gallery = Gallery::where('product_id',$id)->get();
-        $products = Product::findOrFail($id);
-        return view('backend.product.gallery',compact('products','gallery'));
-    }
-
-    public function UpdateImage(Request $request){
-
-        $pro_id = $request->id;
-        $oldImage = $request->old_img;
-
-        $image = $request->file('image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-
-        Image::make($image)->resize(800,null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save('upload/product/'.$name_gen);    
-
-        $save_url = 'upload/product/'.$name_gen;
-
-         if (file_exists($oldImage)) {
-           unlink($oldImage);
-        }
-
-        Product::findOrFail($pro_id)->update([
-
-            'image' => $save_url,
-            'updated_at' => Carbon::now(),
-        ]);
-
-       $notification = array(
-            'message' => 'Product updated',
+            $notification = array(
+            'message' => 'Note updated',
             'alert-type' => 'success'
         );
 
-        return redirect()->back()->with($notification); 
+        return redirect()->to('view/note/'.$note_id)->with($notification); 
     }
 
-    public function UpdateGallery(Request $request){
-
-        $imgs = $request->multi_img;
-
-        foreach($imgs as $id => $img ){
-            $imgDel = Gallery::findOrFail($id);
-           
-            if (Storage::exists($imgDel->title)) {
-                unlink($imgDel->title);
-            }
-            $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-           
-            Image::make($img)->resize(800,null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save('upload/product/gallery/'.$make_name);    
-
-            $uploadPath = 'upload/product/gallery/'.$make_name;
-
-            Gallery::where('id',$id)->update([
-                'title' => $uploadPath,
-                'updated_at' => Carbon::now(),
-
-            ]); 
-        }
-
-         $notification = array(
-            'message' => 'Product gallery updated',
+    public function UpdateText(Request $request){
+            $note_id = $request->note_id;
+            $text_id = $request->id;
+            $text = $request->text;
+            Text::findOrFail($text_id)->update([
+            'text' => $text
+            ]);
+            $notification = array(
+            'message' => 'Text updated',
             'alert-type' => 'success'
         );
 
-        return redirect()->back()->with($notification); 
-
-    } 
-
-    public function GalleryDelete($id){
-        $oldImg = Gallery::findOrFail($id);
-
-        if (Storage::exists($oldImg->title)) {
-            unlink($oldImg->title);
-        }
-
-        Gallery::findOrFail($id)->delete();
-
-        $notification = array(
-            'message' => 'Photo deleted',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->back()->with($notification);
-    } 
-
-    public function StoreGallery(Request $request){
-        $product_id = $request->id;
-        $images = $request->file('multi_img');
-        if($images){
-            foreach($images as $img){
-                $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-
-                Image::make($img)->resize(800,null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save('upload/product/gallery/'.$make_name);
-
-                $uploadPath = 'upload/product/gallery/'.$make_name;
-
-                Gallery::insert([
-                    'product_id' => $product_id,
-                    'title' => $uploadPath,
-                    'created_at' => Carbon::now(), 
-                ]); 
-            }
-        }
-        $notification = array(
-            'message' => 'Photo inserted',
-            'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification); 
+        return redirect()->to('view/note/'.$note_id)->with($notification); 
     }
 
     public function Delete($id){
-        $product = Product::findOrFail($id);
+        $product = Note::findOrFail($id);
         if(($product->image)&&(Storage::exists($product->image))) {
             unlink($product->image);
         }
         
-        Product::findOrFail($id)->delete();
+        Note::findOrFail($id)->delete();
 
-        $imgs = Gallery::where('product_id',$id)->get();
-        foreach($imgs as $img){
-            if(($img->title)&&(Storage::exists($img->title))) {
-                unlink($img->title);
-            }
-            Gallery::where('product_id',$id)->delete();
-        }
         $notification = array(
             'message' => 'Product deleted',
             'alert-type' => 'success'
@@ -412,16 +275,21 @@ class NoteController extends Controller
         return redirect()->back()->with($notification);
     }
 
-
-    public function Active(Request $request, $id){
-        try {
-            $product = Product::findOrFail($id);
-            $product->update([
-                'status' => $request->active,
-            ]);
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
+    private function Autocomplete(){
+        $names = Note::pluck('name')->toArray();
+        $names = array_unique($names);
+        $jsArray = 'let autocomplete = ' . json_encode($names) . ';';
+       
+        $filePath = 'autocomplete.js';
+        $disk = Storage::disk('public');
+    
+        if ($disk->exists($filePath)) {
+            $disk->delete($filePath);
         }
+       
+        $disk->put($filePath, $jsArray);
+        Storage::disk('public')->put('autocomplete.js', $jsArray);
+
+        $disk->put($filePath, $jsArray);
     }
 }

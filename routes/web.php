@@ -52,12 +52,17 @@ Route::middleware('auth','role:admin')->group(function () {
         Route::group(['middleware' => ['demo_mode']], function () {
             Route::post('/store/note' , 'Store')->name('store.note');
             Route::post('/store/note/text/' , 'StoreText')->name('store.text');
-            Route::post('/update/note' , 'Update')->name('update.note');
+            Route::post('/update/note' , 'UpdateNote')->name('update.note');
+            Route::post('/update/text' , 'UpdateText')->name('update.text');
             Route::post('/delete/note/{id}' , 'Delete')->name('delete.note');
             Route::get('up/{note_id}/{text_id}','Up')->name('note.up');
             Route::get('down/{note_id}/{text_id}','Down')->name('note.down');
         });
     });  
+});
+
+Route::get('/autocomplete.js', function () {
+    return response()->file(storage_path('app/public/autocomplete.js'));
 });
    
 Route::middleware('auth', 'checkrole')->group(function () {

@@ -11,7 +11,7 @@
                             <div class="text-center">
                                 <img src="{{ asset('backend/assets/images/laravel.png') }}" alt="Laravel" class="laravelLogo">
                             </div>
-                            <h5 class="mt-4 text-white text-center">Personal programming notes<br />and snippets of code<br />developed in Laravel 
+                            <h5 class="mt-4 text-white text-center">Personal programming notes<br />and snippets of code management<br />developed in Laravel 
                             </h5>
                         </div>
                     </div>                                            
@@ -55,8 +55,29 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
-   
-       
+        <div class="search-container">
+            <input id="searchInput" type="text" placeholder="Search..." class="search-box">
+            <button class="search-button">Cerca</button>
+        </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#searchInput').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '/autocomplete.js',
+                    dataType: 'script', 
+                    cache: true, 
+                    success: function() {
+                        response(autocomplete);
+                    }
+                });
+            },
+            minLength: 2
+        });
+    });
+</script>
+
 @endsection
