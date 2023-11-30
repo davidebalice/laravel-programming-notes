@@ -57,13 +57,13 @@ a {
     margin-left: 10px;
     margin-bottom: 0;
     letter-spacing: 1px;
-    color: #0d6efd;
+    color: #30b8f8;
 }
 
 .toggle-icon {
     font-size: 22px;
     cursor: pointer;
-    color: #0d6efd;
+    color: #30b8f8;
 }
 
 .topbar {
@@ -217,7 +217,7 @@ a {
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-    color: #0d6efd;
+    color: #30b8f8;
     text-decoration: none;
     background: rgb(13 110 253 / 0.12);
 }
@@ -353,7 +353,7 @@ a {
     border-radius: 10px;
     bottom: 20px;
     right: 12px;
-    background-color: #0d6efd;
+    background-color: #30b8f8;
     z-index: 5;
 }
 
@@ -536,7 +536,7 @@ a {
 }
 
 .fm-menu .list-group a:hover {
-    background: #0d6efd;
+    background: #30b8f8;
     color: #fff;
     transition: all 0.2s ease-out;
 }
@@ -874,7 +874,7 @@ a {
 .invoice header {
     padding: 10px 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid #0d6efd;
+    border-bottom: 1px solid #30b8f8;
 }
 
 .invoice .company-details {
@@ -905,7 +905,7 @@ a {
 
 .invoice .invoice-details .invoice-id {
     margin-top: 0;
-    color: #0d6efd;
+    color: #30b8f8;
 }
 
 .invoice main {
@@ -920,7 +920,7 @@ a {
 
 .invoice main .notices {
     padding-left: 6px;
-    border-left: 6px solid #0d6efd;
+    border-left: 6px solid #30b8f8;
     background: #e7f2ff;
     padding: 10px;
 }
@@ -952,7 +952,7 @@ a {
 .invoice table td h3 {
     margin: 0;
     font-weight: 400;
-    color: #0d6efd;
+    color: #30b8f8;
     font-size: 1.2em;
 }
 
@@ -966,7 +966,7 @@ a {
 .invoice table .no {
     color: #fff;
     font-size: 1.6em;
-    background: #0d6efd;
+    background: #30b8f8;
 }
 
 .invoice table .unit {
@@ -974,7 +974,7 @@ a {
 }
 
 .invoice table .total {
-    background: #0d6efd;
+    background: #30b8f8;
     color: #fff;
 }
 
@@ -997,9 +997,9 @@ a {
 }
 
 .invoice table tfoot tr:last-child td {
-    color: #0d6efd;
+    color: #30b8f8;
     font-size: 1.4em;
-    border-top: 1px solid #0d6efd;
+    border-top: 1px solid #30b8f8;
 }
 
 .invoice table tfoot tr td:first-child {
@@ -1035,6 +1035,12 @@ a {
 
 .backButton {
     margin-bottom: 22px;
+    background: #30b8f8;
+    border-color: #30b8f8;
+}
+.backButton:hover {
+    background: #22a1dd;
+    border-color: #30b8f8;
 }
 
 .main-row {
@@ -1169,7 +1175,7 @@ a {
 
 .chat-tab-menu .nav-pills .nav-link.active,
 .chat-tab-menu .nav-pills .show > .nav-link {
-    color: #0d6efd;
+    color: #30b8f8;
     background-color: rgb(0 123 255 / 0%);
 }
 
@@ -1464,8 +1470,8 @@ a {
 }
 
 .nav-primary.nav-tabs .nav-link.active {
-    color: #0d6efd;
-    border-color: #0d6efd #0d6efd #fff;
+    color: #30b8f8;
+    border-color: #30b8f8 #30b8f8 #fff;
 }
 
 .nav-danger.nav-tabs .nav-link.active {
@@ -1602,8 +1608,8 @@ a {
 }
 
 .split-bg-primary {
-    background-color: #0c62e0;
-    border-color: #0c62e0;
+    background-color: #30b8f8;
+    border-color: #30b8f8;
 }
 
 .split-bg-secondary {
@@ -2153,7 +2159,7 @@ input.search-control-2::placeholder {
     height: 40px;
     line-height: 40px;
     font-size: 24px;
-    background: #0d6efd;
+    background: #30b8f8;
     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.13);
     color: #fff;
     text-align: center;
@@ -2592,10 +2598,13 @@ input.search-control-2::placeholder {
     height: 1px;
 }
 .formatCode {
-    color: #222;
-    padding: 10px;
+    color: #fff;
+    padding: 16px;
     font-size: 15px;
-    background: #f4f4f4;
+    background: #333;
+    text-align: left;
+    border-radius: 8px;
+    min-height: 88px;
 }
 .addButton {
     background: #24ac16;
@@ -2630,6 +2639,13 @@ input.search-control-2::placeholder {
 }
 .closeButton {
     display: none;
+    background: #30b8f8;
+    border-color: #30b8f8;
+}
+.closeButton:hover {
+    display: none;
+    background: #22a1dd;
+    border-color: #22a1dd;
 }
 .saveButton {
     background: #24ac16;
@@ -2678,7 +2694,7 @@ input.search-control-2::placeholder {
 }
 .editInput {
     background: #f1f1f1;
-    padding:22px;
+    padding: 22px;
 }
 .search-container {
     display: flex;
@@ -2724,8 +2740,73 @@ input.search-control-2::placeholder {
     background: #777;
 }
 
-.closeContainer{
+.closeContainer {
     width: 100%;
     display: flex;
     justify-content: end;
+}
+
+.noteRow {
+    width: 100%;
+}
+
+.buttonContainer {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    gap: 6px;
+    width: fit-content;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.buttonContainerText {
+    display: flex;
+    position: absolute;
+    gap: 6px;
+    right: 30px;
+    width: 100px;
+}
+
+.buttonWrapper {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    width: fit-content;
+    flex-direction: column;
+}
+
+.btnCopy {
+    margin-top: 46px;
+    margin-right: 10px;
+    background: #30b8f8;
+    border: none;
+    width: 100px;
+    color: #fff;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    align-items: center;
+}
+
+.btnCopy:hover {
+    background: #22a1dd;
+    color: #fff;
+}
+
+.buttonBox {
+    background: #30b8f8;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonBox:hover {
+    background: #22a1dd;
+    color: #fff;
 }

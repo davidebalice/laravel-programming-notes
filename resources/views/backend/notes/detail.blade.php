@@ -144,36 +144,41 @@
 
 							@foreach ($texts as $text)
 								<input type="hidden" id="type{{$text->id}}" value="{{ $text->type }}">
-								@if ($text->type === "text")
-									<p id="text{{ $text->id }}">{{ $text->text }}</p>
-								@else
-									<button class="btn-copy" data-clipboard-target="#code{{ $text->id }}">Copy</button>
-									<pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{{ $text->text }}</code></pre>
-								@endif
 
-								<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}">UP</a>
-								| 
-								<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}">DOWN</a>
-								| 
-								<a href="#" onclick="$().openEditForm({{$text->id}})">
-									<i class="bx bx-pencil"></i>
-								</a>
-
-
-
-
-								@php
-								/*
-								<a href="{{ route('edit.text',$text->id) }}">
-									<i class="bx bx-pencil "></i>
-								</a>
-								<a href="{{ route('delete.text',$text->id) }}" id="delete{{$text->id}}" >
-									<i class="fa fa-trash "></i>
-								</a>
-								*/
-								@endphp
-								
-
+								<div class="noteRow">
+									@if ($text->type === "text")
+										<div class="buttonContainerText">
+											<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
+												<i class="bx bx-pencil"></i>
+											</a>
+											<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
+												<i class="bx bx-up-arrow"></i>
+											</a>
+											<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
+												<i class="bx bx-down-arrow"></i>
+											</a>
+										</div>
+										<p id="text{{ $text->id }}">{{ $text->text }}</p>
+									@else
+										<div class="buttonWrapper">
+											<div class="buttonContainer">
+												<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
+													<i class="bx bx-pencil"></i>
+												</a>
+												<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
+													<i class="bx bx-up-arrow"></i>
+												</a>
+												<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
+													<i class="bx bx-down-arrow"></i>
+												</a>
+											</div>
+											<button class="btnCopy" data-clipboard-target="#code{{ $text->id }}">
+												<i class="bx bx-copy"></i>Copy
+											</button>
+										</div>
+										<pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{{ $text->text }}</code></pre>
+									@endif
+								</div>
 							@endforeach
 
 						</div>
@@ -223,7 +228,7 @@
 			reader.readAsDataURL(e.target.files['0']);
 		});
 
-		const clipboard = new ClipboardJS('.btn-copy');
+		const clipboard = new ClipboardJS('.btnCopy');
 
 		clipboard.on('success', function(e) {
 			e.trigger.textContent = 'Copiato!';
