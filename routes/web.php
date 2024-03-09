@@ -26,7 +26,7 @@ Route::middleware('auth','role:admin')->group(function () {
     Route::group(['middleware' => ['demo_mode']], function () {
         Route::post('/admin/profile/store', [AdminController::class, 'Store'])->name('admin.profile.store');
         Route::post('/admin/update/password', [AdminController::class, 'UpdatePassword'])->name('update.password');
-        Route::post('admin/home/option/update', [HomeOptionController::class,'Update'])->name('update.home.options');
+        //Route::post('admin/home/option/update', [HomeOptionController::class,'Update'])->name('update.home.options');
     });
 
     Route::controller(CategoryController::class)->group(function(){
@@ -45,6 +45,7 @@ Route::middleware('auth','role:admin')->group(function () {
 
     Route::controller(NoteController::class)->group(function(){
         Route::get('/notes' , 'Notes')->name('notes');
+        Route::post('/notes/search', 'Notes')->name('notes.search');
         Route::get('/add/note' , 'Add')->name('add.note');
         Route::get('/view/note/{id}' , 'Detail')->name('view.note');
         Route::get('/edit/note/{id}' , 'Edit')->name('edit.note');

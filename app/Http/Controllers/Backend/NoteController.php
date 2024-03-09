@@ -71,7 +71,53 @@ class NoteController extends Controller
         
         return view('backend.notes.notes',compact('notes'));
     }
+/*
+    public function Search(Request $request)
+    {
+        $key = $request->input('key');
+        $notes = Note::where('name', 'like', "%$key%")->get();
 
+        $notes = $notes->paginate(20);
+
+        foreach ($notes as $note) {
+            $category1 = [];
+            $category2 = [];
+            $category3 = [];
+    
+            $categories = json_decode($note->categories, true);
+    
+            if ($categories) {
+                $categoryKeys = array_keys($categories);
+    
+                foreach ($categoryKeys as $index => $key) {
+                    $categoryData = Category::find($categories[$key]);
+    
+                    if ($categoryData) {
+                        switch ($index) {
+                            case 0:
+                                $category1[] = $categoryData;
+                                break;
+                            case 1:
+                                $category2[] = $categoryData;
+                                break;
+                            case 2:
+                                $category3[] = $categoryData;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+    
+            $note->category1 = $category1;
+            $note->category2 = $category2;
+            $note->category3 = $category3;
+        }
+
+        return view('backend.notes.notes', compact('notes', 'key'));
+    }
+*/
     public function Add(){
         $categories = Category::latest()->get();
         return view('backend.notes.add',compact('categories'));

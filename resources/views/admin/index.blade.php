@@ -54,11 +54,27 @@
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+    <div class="search-container-row">
+
+        <img src="{{ asset('backend/assets/images/logo.png') }}" class="dbLogoSearch">
+
         <div class="search-container">
-            <input id="searchInput" type="text" placeholder="Search..." class="search-box">
-            <button class="search-button">Cerca</button>
+            <form action="{{ route('notes.search') }}" method="POST" class="search-container">
+                @csrf
+                <input id="searchInput" type="text" name="search" placeholder="Search..." class="search-box">
+                <button class="search-button">Search</button>
+            </form>
         </div>
+
+
+
+      
+
+
+
+
+
+
     </div>
 </div>
 

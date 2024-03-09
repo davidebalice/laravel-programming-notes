@@ -9,7 +9,7 @@ use Intervention\Image\Facades\Image As Image;
 class CategoryController extends Controller
 {
     public function Categories(){
-        $categories = Category::latest()->get();
+        $categories = Category::orderBy('name')->get();
         return view('backend.category.categories',compact('categories'));
     }
 

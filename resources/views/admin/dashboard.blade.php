@@ -59,17 +59,8 @@ $currentLocale = app()->getLocale();
 	<script src="{{asset('backend/assets/plugins/sparkline-charts/jquery.sparkline.min.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/jquery-knob/excanvas.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/jquery-knob/jquery.knob.js')}}"></script>
-
-
-
-	
 	<script src="http://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
-
-
-
-
 
 	<script>
 		$(function() {

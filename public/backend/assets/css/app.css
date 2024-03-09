@@ -1853,7 +1853,6 @@ input::placeholder {
     color: #fff;
     padding-right: 2.5rem;
     background-color: #212529;
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
 }
 
 input.search-control-2::placeholder {
@@ -2553,6 +2552,12 @@ input.search-control-2::placeholder {
     margin: 0 auto;
     margin-top: 30px;
 }
+.dbLogoSearch {
+    max-width: 140px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
 .dashText1 {
     color: #ff0000;
     font-weight: bold;
@@ -2624,6 +2629,13 @@ input.search-control-2::placeholder {
 }
 .categoryTitle {
     font-size: 16px;
+}
+.categoryTitle2 {
+    font-size: 17px;
+    padding: 12px;
+}
+.categoryButtons {
+    padding: 12px;
 }
 .titleDiv {
     width: 99%;
@@ -2699,16 +2711,23 @@ input.search-control-2::placeholder {
 .search-container {
     display: flex;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 30px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
 }
-
+.search-container-row {
+    display: flex;
+    flex-direction: column;
+}
 .search-box {
     flex: 1;
     border: none;
-    padding: 10px;
-    font-size: 16px;
+    padding: 12px;
+    font-size: 18px;
 }
 
 .search-button {
