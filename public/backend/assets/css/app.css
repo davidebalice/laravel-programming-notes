@@ -2611,6 +2611,11 @@ input.search-control-2::placeholder {
     border-radius: 8px;
     min-height: 88px;
 }
+.hljs {
+    background-color: none !important;
+    color: #fff !important;
+}
+
 .addButton {
     background: #24ac16;
     border-color: #24ac16;
@@ -2775,7 +2780,7 @@ input.search-control-2::placeholder {
     right: 10px;
     gap: 6px;
     width: fit-content;
-    width: 100px;
+    width: 130px;
     margin-top: 10px;
 }
 
@@ -2784,7 +2789,7 @@ input.search-control-2::placeholder {
     position: absolute;
     gap: 6px;
     right: 30px;
-    width: 100px;
+    width: 130px;
 }
 
 .buttonWrapper {
@@ -2800,7 +2805,7 @@ input.search-control-2::placeholder {
     margin-right: 10px;
     background: #30b8f8;
     border: none;
-    width: 100px;
+    width: 130px;
     color: #fff;
     border-radius: 4px;
     display: flex;

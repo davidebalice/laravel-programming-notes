@@ -2,6 +2,8 @@
 @section('admin')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
 <div class="page-content"> 
 	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -34,6 +36,15 @@
 						<div class="card-body">
 							<form id="myForm" method="post" action="{{ route('store.note') }}" enctype="multipart/form-data" >
 								@csrf
+
+								<div class="row mb-3">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Title</h6>
+									</div>
+									<div class="form-group col-sm-9 text-secondary">
+										<input type="text" name="name" class="form-control"   />
+									</div>
+								</div>
 			
 								<div class="row mb-3">
 									<div class="col-sm-3">
@@ -51,10 +62,10 @@
 
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Category</h6>
+										<h6 class="mb-0">Category 2</h6>
 									</div>
 									<div class="form-group col-sm-9 text-secondary">
-										<select name="category2" class="form-select" id="inputVendor">
+										<select name="category2" class="form-select" id="inputVendor2">
 											<option></option>
 											@foreach($categories as $cat)
 												<option value="{{ $cat->id }}">{{ $cat->name }}</option>
@@ -63,51 +74,8 @@
 									</div>
 								</div>
 
-								<div class="row mb-3">
-									<div class="col-sm-3">
-										<h6 class="mb-0">Title</h6>
-									</div>
-									<div class="form-group col-sm-9 text-secondary">
-										<input type="text" name="name" class="form-control"   />
-									</div>
-								</div>
+							
 				
-								<div class="row mb-3">
-									<div class="col-sm-3">
-										<h6 class="mb-0">Short description</h6>
-									</div>
-									<div class="form-group col-sm-9 text-secondary">
-										<textarea name="short_description" class="form-control" id="inputProductDescription" rows="3"></textarea>
-									</div>
-								</div>
-
-								<div class="row mb-3">
-									<div class="col-sm-3">
-										<h6 class="mb-0">Long description</h6>
-									</div>
-									<div class="form-group col-sm-9 text-secondary">
-										<textarea id="mytextarea" name="long_description"> </textarea>
-									</div>
-								</div>
-
-								<div class="row mb-3">
-									<div class="col-sm-3">
-										<h6 class="mb-0">Image </h6>
-									</div>
-									<div class="col-sm-9 text-secondary">
-										<input type="file" name="image" class="form-control"  id="image"   />
-									</div>
-								</div>
-
-								<div class="row mb-3">
-									<div class="col-sm-3">
-										<h6 class="mb-0"> </h6>
-									</div>
-									<div class="col-sm-9 text-secondary">
-										<img id="showImage" src="{{ url('upload/no_image.jpg') }}" alt="Admin" style="width:100px; height: 100px;"  >
-									</div>
-								</div>
-
 								<div class="row">
 									<div class="col-sm-3"></div>
 									<div class="col-sm-9 text-secondary">

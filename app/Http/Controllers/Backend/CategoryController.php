@@ -33,7 +33,7 @@ class CategoryController extends Controller
         Category::insert([
             'name' => $request->name,
             'slug' => strtolower(str_replace(' ', '-',$request->name)),
-            'image' => $save_url, 
+            'image' => $save_url,
         ]);
 
        $notification = array(

@@ -18,19 +18,12 @@
         <script>hljs.initHighlightingOnLoad();</script>
     </head>
     
-    <body>    
+    <body>
         @include('frontend.body.header')
 
         <main class="main pages">
-
             @php
-                $role = Auth::user()->role;
-                if($role=="admin"){
-                    echo redirect()->route('admin.dashboard');
-                }
-                elseif($role=="vendor"){
-                    echo redirect()->route('vendor.dashboard');
-                }
+                echo redirect()->route('admin.dashboard');
             @endphp
 
             @yield('user')

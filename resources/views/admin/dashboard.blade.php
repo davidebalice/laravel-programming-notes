@@ -29,7 +29,7 @@ $currentLocale = app()->getLocale();
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<title>Programming notes</title>
+	<title>Davide Balice Programming notes</title>
 </head>
 
 <body>
@@ -167,19 +167,22 @@ $currentLocale = app()->getLocale();
 				"hideMethod": "fadeOut"
 				}
 		   toastr.error(" {{ Session::get('message') }} ");
-		   break; 
+		   break;
 		}
-		@endif 
+		@endif
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script src="{{ asset('backend/assets/js/code.js') }}"></script>
 	<script src="{{ asset('backend/assets/plugins/input-tags/js/tagsinput.js') }}"></script>
- 	<script src='https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+	<!-- script src="https://cdn.tiny.cloud/1/6bgig7qk0ddg1r2wzj1ll10ewvfqxabx8cycpi6cawkmo8fl/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script-->
+
 	</script>
 	<script>
+		/*
 		tinymce.init({
 		  selector: '#mytextarea'
 		});
+*/
 	</script>
 </body>
 </html>

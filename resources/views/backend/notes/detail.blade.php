@@ -1,6 +1,10 @@
 @extends('admin.dashboard')
 @section('admin')
 
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <div class="page-content"> 
 	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 		<div class="breadcrumb-title pe-3">Detail  </div>
@@ -51,7 +55,7 @@
 		<form id="titleForm" method="post" action="{{ route('update.note') }}" class="editForm">
 			@csrf
 			<div class="closeContainer">
-				<div onclick="$().closeForm()" class="closeEdit">close</div>
+				<div onclick="$().closeTitleForm()" class="closeEdit">close</div>
 			</div>
 
 			<input type="hidden" name="id" value="{{$note->id}}">
@@ -59,6 +63,18 @@
 			<div class="row mb-3">
 				<div class="form-group col-sm-12 text-secondary">
 					<input type="text" name="name" class="form-control editInput" value="{{ $note->name }}" required>
+					<select name="category1">
+						@foreach($categories as $cat)
+							<option value="{{ $cat->id }}"  @if(isset($note->category1[0]) && $cat->id == $note->category1[0]->id) selected @endif>{{ $cat->name }}</option>
+						@endforeach
+						<option value=""  @if(!isset($note->category1[0])) selected @endif> - No category - </option>
+					</select>
+					<select name="category2">
+						@foreach($categories as $cat)
+							<option value="{{ $cat->id }}"  @if(isset($note->category2[0]) && $cat->id == $note->category2[0]->id) selected @endif>{{ $cat->name }}</option>
+						@endforeach
+						<option value=""  @if(!isset($note->category2[0])) selected @endif> - No category - </option>
+					</select>
 				</div>
 			</div>
 
@@ -72,7 +88,7 @@
 
     <div class="containerBody">
 		<div class="main-body">
-			<div class="row">				 
+			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
@@ -124,7 +140,31 @@
 											<input type="radio" name="type" value="code"> Code
 										</div>
 										<br />
-										<textarea name="text" class="form-control" rows="3" required></textarea>
+										
+										<div id="quill-editor" style="height:300px">
+												
+										</div>
+										<textarea name="text" class="form-control d-none" id="quill-editor-area"></textarea>
+
+										<script>
+										document.addEventListener('DOMContentLoaded', function() {
+											if (document.getElementById('quill-editor-area')) {
+												var editor = new Quill('#quill-editor', {
+													theme: 'snow'
+												});
+												var quillEditor = document.getElementById('quill-editor-area');
+												editor.on('text-change', function() {
+													quillEditor.value = editor.root.innerHTML;
+												});
+
+												quillEditor.addEventListener('input', function() {
+													editor.root.innerHTML = quillEditor.value;
+												});
+											}
+										});
+										</script>
+
+
 									</div>
 								</div>
 
@@ -149,34 +189,41 @@
 									@if ($text->type === "text")
 										<div class="buttonContainerText">
 											<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
-												<i class="bx bx-pencil"></i>
+												<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
 											</a>
 											<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-												<i class="bx bx-up-arrow"></i>
+												<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
 											</a>
 											<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-												<i class="bx bx-down-arrow"></i>
+												<i class="bx bx-down-arrow" data-toggle="tooltip" title="Down"></i>
+											</a>
+											<a href="{{ route('delete.text', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox" id="row_delete{{$text->id}}" >
+												<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
 											</a>
 										</div>
-										<p id="text{{ $text->id }}">{{ $text->text }}</p>
+										<p id="text{{ $text->id }}">{!! $text->text !!}</p>
 									@else
 										<div class="buttonWrapper">
 											<div class="buttonContainer">
 												<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
-													<i class="bx bx-pencil"></i>
+													<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
 												</a>
 												<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-													<i class="bx bx-up-arrow"></i>
+													<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
 												</a>
 												<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-													<i class="bx bx-down-arrow"></i>
+													<i class="bx bx-down-arrow" data-toggle="tooltip" title="Down"></i>
+												</a>
+												<a href="{{ route('delete.text', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox" id="row_delete{{$text->id}}" >
+													<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
 												</a>
 											</div>
 											<button class="btnCopy" data-clipboard-target="#code{{ $text->id }}">
 												<i class="bx bx-copy"></i>Copy
 											</button>
+											
 										</div>
-										<pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{{ $text->text }}</code></pre>
+										<pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{!! $text->text !!}</code></pre>
 									@endif
 								</div>
 							@endforeach
@@ -231,15 +278,15 @@
 		const clipboard = new ClipboardJS('.btnCopy');
 
 		clipboard.on('success', function(e) {
-			e.trigger.textContent = 'Copiato!';
+			e.trigger.textContent = 'Copied!';
 			setTimeout(function() {
 				e.clearSelection();
-				e.trigger.textContent = 'Copia';
+				e.trigger.textContent = 'Copy';
 			}, 1500);
 		});
 
 		clipboard.on('error', function(e) {
-			console.error('Errore durante la copia: ', e.action);
+			console.error('Error during copy: ', e.action);
 		});
 
 		const addButton = document.querySelector('.addButton');
@@ -294,16 +341,19 @@
 				const editForm = $('#titleFormContainer');
 				editForm.css('display','flex');
 			}
-		})(jQuery);	
+		})(jQuery);
 
-		(function($) 
+		(function($)
 		{
 			$.fn.closeTitleForm = function() 
 			{
 				const editForm = $('#titleFormContainer');
 				editForm.css('display','none');
 			}
-		})(jQuery);	
+		})(jQuery);
+
+        $('[data-toggle="tooltip"]').tooltip();
+
 	});
 </script>
 

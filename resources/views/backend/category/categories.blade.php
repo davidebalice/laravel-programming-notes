@@ -48,14 +48,14 @@
                             <h5 class="py-5 pl-4">No result</h5>
                         </td>
                     </tr>
-                    @endif    
-                        @foreach($categories as $key => $item)		
+                    @endif
+                        @foreach($categories as $key => $item)
                         <tr>
-                            <td style="width:80px">  
+                            <td style="width:80px">
                                 @if (file_exists($item->image))
-                                    <img src="{{ asset($item->image) }}" style="width:70px;height:auto !important" >  
+                                    <img src="{{ asset($item->image) }}" style="width:70px;height:auto !important" >
                                 @else
-                                    <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:70px;"  >                 
+                                    <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:70px;"  >
                                 @endif
                             </td>
                             <td style="width:68%">

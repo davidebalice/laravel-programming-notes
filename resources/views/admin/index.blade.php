@@ -32,7 +32,7 @@
                                 <p class="githubLink">Github.com/davidebalice/laravel-programming-notes</p>
                             </a>
                         </div>
-                    </div>                                            
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                             <h3 class="mb-2 dashText1">Important</h3>
                             <h4 class="mb-2 dashText2">This CMS is in DEMO MODE, the crud operations area not allowed.</h4>
                         </div>
-                    </div>                                            
+                    </div>
                 </div>
             </div>
         </div>

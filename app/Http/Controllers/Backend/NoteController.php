@@ -119,7 +119,7 @@ class NoteController extends Controller
     }
 */
     public function Add(){
-        $categories = Category::latest()->get();
+        $categories = Category::orderBy('name', 'asc')->get();
         return view('backend.notes.add',compact('categories'));
     }
 
@@ -156,6 +156,9 @@ class NoteController extends Controller
         $note = Note::findOrFail($id);
         $texts = Text::where('note_id', $id)->orderBy('order', 'asc')->get();
         
+       
+        
+        
         $category1 = [];
         $category2 = [];
         $category3 = [];
@@ -189,13 +192,20 @@ class NoteController extends Controller
         $note->category1 = $category1;
         $note->category2 = $category2;
         $note->category3 = $category3;
+
+        $categories = Category::orderBy('name', 'asc')->get();
         
-        return view('backend.notes.detail',compact('note','texts'));
+        return view('backend.notes.detail',compact('note','texts','categories'));
     }
 
     public function StoreText(Request $request){
         $text = Text::where('note_id', $request->id)->orderBy('order', 'desc')->first();
-        $new_order=$text->order + 1;
+        if($text !== null){
+            $new_order=$text->order + 1;
+        }
+        else{
+            $new_order=1;
+        }
         
         $note_id = Text::insert([
             'note_id' => $request->id,
@@ -278,9 +288,25 @@ class NoteController extends Controller
     }
 
     public function UpdateNote(Request $request){
+
+            $categories = [];
+
+            if ($request->has('category1')) {
+                $categories['category1'] = $request->category1;
+            }
+            if ($request->has('category2')) {
+                $categories['category2'] = $request->category2;
+            }
+            if ($request->has('category3')) {
+                $categories['category3'] = $request->category3;
+            }
+
+            $categoriesJson = json_encode($categories);
+
             $note_id = $request->id;
             Note::findOrFail($note_id)->update([
             'name' => $request->name,
+            'categories' => $categoriesJson,
             ]);
 
             $notification = array(
@@ -307,17 +333,38 @@ class NoteController extends Controller
     }
 
     public function Delete($id){
-        $product = Note::findOrFail($id);
-        if(($product->image)&&(Storage::exists($product->image))) {
-            unlink($product->image);
+        $notes = Note::findOrFail($id);
+        if(($notes->image)&&(Storage::exists($notes->image))) {
+            unlink($notes->image);
         }
         
         Note::findOrFail($id)->delete();
 
         $notification = array(
-            'message' => 'Product deleted',
+            'message' => 'Note deleted',
             'alert-type' => 'success'
         );
+        return redirect()->back()->with($notification);
+    }
+
+    public function DeleteText($note_id, $text_id){
+        $text = Text::findOrFail($text_id);
+
+        try {
+            $text = Text::where('id', $text_id)
+                        ->where('note_id', $note_id)
+                        ->firstOrFail();
+    
+            $text->delete();
+    
+            $notification = array(
+                'message' => 'Row deleted',
+                'alert-type' => 'success'
+            );
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete text. ' . $e->getMessage()], 500);
+        }
+       
         return redirect()->back()->with($notification);
     }
 

@@ -1,5 +1,6 @@
 @extends('admin.dashboard')
 @section('admin')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="page-content">
 	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -19,7 +20,7 @@
 	<hr/>
 	<div class="ms-auto">
 		<div class="btn-group">
-			<a href="{{ route('add.note') }}" class="btn btn-primary addButton">+ Add note</a> 				 
+			<a href="{{ route('add.note') }}" class="btn btn-primary addButton">+ Add note</a>
 		</div>
 	</div>
 	<hr/>
@@ -31,15 +32,15 @@
 					<thead>
 					<tr>
 						<th style="width:150px">Category</th>
-						<th style="width:70%">Title</th> 
-						<th>Action</th> 
+						<th style="width:70%">Title</th>
+						<th>Action</th>
 					</tr>
 					</thead>
 					<tbody>
-						@foreach($notes as $key => $item)		
+						@foreach($notes as $key => $item)
 							<tr>
-								<td>  
-									<div class="categoryIconContainer">  
+								<td>
+									<div class="categoryIconContainer">
 										@foreach($item->category1 as $category)
 											@if (file_exists($category->image))
 												<img src="{{ asset($category->image) }}" class="categoryIcon">  
@@ -55,8 +56,8 @@
 												<img src="{{ asset($category->image) }}" class="categoryIcon">  
 											@endif
 										@endforeach
-									</div>		
-								</td>		
+									</div>
+								</td>
 								<td>
 									<p class="categoryTitle">{{ $item->name }}</p>
 								</td>
@@ -69,7 +70,7 @@
 											<i class="fa fa-trash deleteNoteIcon"></i>
 										</a>
 									</div>
-								</td> 
+								</td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -77,7 +78,7 @@
 				{{ $notes->links() }}
 			</div>
 		</div>
-	</div>		 
+	</div>
 </div>
 
 @endsection
