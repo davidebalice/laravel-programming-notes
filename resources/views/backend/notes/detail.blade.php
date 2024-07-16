@@ -39,10 +39,11 @@
 			
 			<div class="row mb-3">
 				<div class="form-group col-sm-12 text-secondary">
-					<textarea name="text" id="editTextarea" class="form-control editTextarea" rows="3" required></textarea>
+					<div id="editTextareaDiv"></div>
+					<textarea name="text" id="editTextarea" class="form-control d-none"></textarea>
 				</div>
 			</div>
-
+		
 			<div class="row">
 				<div class="col-sm-12 text-secondary">
 					<input type="submit" class="btn btn-primary px-4 saveButton" value="Save" />
@@ -120,10 +121,8 @@
 								</div>
 							</div>
 
-
 							<button class="btn btn-primary addButton">+ Add Text or Code</button>
 							<button class="btn btn-primary closeButton">- Close</button>
-
 								
 							<form id="addForm" method="post" action="{{ route('store.text') }}" class="addForm">
 								@csrf
@@ -141,7 +140,7 @@
 										</div>
 										<br />
 										
-										<div id="quill-editor" style="height:300px">
+										<div id="quill-editor" style="height:300px;overflow-y:auto">
 												
 										</div>
 										<textarea name="text" class="form-control d-none" id="quill-editor-area"></textarea>
@@ -201,7 +200,7 @@
 												<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
 											</a>
 										</div>
-										<p id="text{{ $text->id }}">{!! $text->text !!}</p>
+										<div id="text{{ $text->id }}">{!! $text->text !!}</div>
 									@else
 										<div class="buttonWrapper">
 											<div class="buttonContainer">
@@ -304,28 +303,51 @@
 			$('.closeButton').hide();
 		});
 
-		(function($) 
-		{
-			$.fn.openEditForm = function(id) 
-			{
-				const type = $('#type'+id).val();
+		(function($) {
+			$.fn.openEditForm = function(id) {
+				const type = $('#type' + id).val();
 
 				const editForm = $('#editFormContainer');
-				editForm.css('display','flex');
+				editForm.css('display', 'flex');
 
 				const editTextarea = $('#editTextarea');
-				
+				const editTextareaDiv = $('#editTextareaDiv');
+
 				$('#editId').val(id);
-				if(type==="text"){
-					editTextarea.html($('#text'+id).html());
+				if (type === "text") {
+					editTextarea.html($('#text' + id).html());
+				} else {
+					editTextarea.html($('#code' + id).html());
+				}
+
+				if (!window.editor) {
+					window.editor = new Quill('#editTextareaDiv', {
+						theme: 'snow'
+					});
+
+					var quillEditor = document.getElementById('editTextarea');
+					var initialContent =  quillEditor.value;
+					editor.clipboard.dangerouslyPasteHTML(initialContent);
+					quillEditor.value = initialContent;
+					
+					editor.on('text-change', function() {
+						quillEditor.value = editor.root.innerHTML;
+					});
+
+					quillEditor.addEventListener('input', function() {
+						editor.root.innerHTML = quillEditor.value;
+					});
 				}
 				else{
-					editTextarea.html($('#code'+id).html());
+					var content = (type === "text") ? $('#text' + id).html() : $('#code' + id).html();
+					window.editor.clipboard.dangerouslyPasteHTML(content);
+					document.getElementById('editTextarea').value = content;
 				}
-			}
-		})(jQuery);	
 
-		(function($) 
+			}
+		})(jQuery);
+
+		(function($)
 		{
 			$.fn.closeForm = function() 
 			{

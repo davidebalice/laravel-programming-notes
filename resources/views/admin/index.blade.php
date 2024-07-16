@@ -46,7 +46,8 @@
                                 <img src="{{ asset('backend/assets/images/logo.png') }}" alt="db" class="dbLogo">
                             </div>
                             <h3 class="mb-2 dashText1">Important</h3>
-                            <h4 class="mb-2 dashText2">This CMS is in DEMO MODE, the crud operations area not allowed.</h4>
+                            <h4 class="mb-2 dashText2">This CMS is in DEMO MODE<br />the crud operations are not allowed<br />
+                                (write, update, delete).</h4>
                         </div>
                     </div>
                 </div>
@@ -66,7 +67,20 @@
             </form>
         </div>
 
+        <div class="categories-container">
+            @php
+                use App\Models\Category;
+                $categories = Category::latest()->orderBy('name','asc')->get();
+            @endphp 
 
+           
+                @foreach($categories as $key => $item)
+                    <a href="{{ route('notes', ['id' => $item->id]) }}" class="categories-item">
+                        <div class="menu-title">{{ $item->name }}</div>
+                    </a>
+                @endforeach
+          
+        </div>
 
       
 

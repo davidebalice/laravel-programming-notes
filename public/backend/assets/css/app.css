@@ -12,6 +12,12 @@ a {
     text-decoration: none;
 }
 
+p {
+    margin: 0;
+    line-height: 26px;
+    padding: 0;
+}
+
 .wrapper {
     width: 100%;
     position: relative;
@@ -2569,6 +2575,7 @@ input.search-control-2::placeholder {
     font-size: 17px;
     text-align: center;
     margin-top: 10px;
+    line-height: 30px;
 }
 .categorySelect {
     width: 100%;
@@ -2772,6 +2779,7 @@ input.search-control-2::placeholder {
 
 .noteRow {
     width: 100%;
+    margin-bottom: 20px
 }
 
 .buttonContainer {
@@ -2833,4 +2841,26 @@ input.search-control-2::placeholder {
 .buttonBox:hover {
     background: #22a1dd;
     color: #fff;
+}
+
+.categories-container {
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 70px;
+    max-width: 600px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.categories-item {
+    text-align: center;
+    width: 20%;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+#editTextareaDiv {
+    height: 400px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
 }
