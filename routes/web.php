@@ -13,7 +13,7 @@ use App\Http\Controllers\User\UserController;
 
 Route::controller(IndexController::class)->group(function(){
     Route::get('/', function () {
-        return redirect()->route('login');
+        return redirect()->route('admin.login');
     });
 });
 
@@ -26,7 +26,6 @@ Route::middleware('auth','role:admin')->group(function () {
     Route::group(['middleware' => ['demo_mode']], function () {
         Route::post('/admin/profile/store', [AdminController::class, 'Store'])->name('admin.profile.store');
         Route::post('/admin/update/password', [AdminController::class, 'UpdatePassword'])->name('update.password');
-        //Route::post('admin/home/option/update', [HomeOptionController::class,'Update'])->name('update.home.options');
     });
 
     Route::controller(CategoryController::class)->group(function(){

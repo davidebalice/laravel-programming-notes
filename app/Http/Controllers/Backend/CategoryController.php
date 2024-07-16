@@ -18,6 +18,14 @@ class CategoryController extends Controller
     }
 
     public function Store(Request $request){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->route('categories')->with($notification); 
+        }
+
         $image = $request->file('image');
         $save_url=null;
         if($image)
@@ -50,6 +58,13 @@ class CategoryController extends Controller
     }
 
     public function Update(Request $request){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->route('categories')->with($notification); 
+        }
 
         $cat_id = $request->id;
         $old_img = $request->old_image;
@@ -100,6 +115,13 @@ class CategoryController extends Controller
     }
 
     public function Delete($id){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification); 
+        }
 
         $category = Category::findOrFail($id);
         $img = $category->image;
@@ -130,6 +152,14 @@ class CategoryController extends Controller
     }
 
     public function Sort($action,$id) {
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            $categories = Category::orderby('position','ASC')->paginate(15);
+            return view('backend.category.categories',compact('categories'));
+        }
         
         $category = Category::findOrFail($id);
         $order = $category->position;

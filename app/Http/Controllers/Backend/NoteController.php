@@ -71,59 +71,22 @@ class NoteController extends Controller
         
         return view('backend.notes.notes',compact('notes'));
     }
-/*
-    public function Search(Request $request)
-    {
-        $key = $request->input('key');
-        $notes = Note::where('name', 'like', "%$key%")->get();
 
-        $notes = $notes->paginate(20);
-
-        foreach ($notes as $note) {
-            $category1 = [];
-            $category2 = [];
-            $category3 = [];
-    
-            $categories = json_decode($note->categories, true);
-    
-            if ($categories) {
-                $categoryKeys = array_keys($categories);
-    
-                foreach ($categoryKeys as $index => $key) {
-                    $categoryData = Category::find($categories[$key]);
-    
-                    if ($categoryData) {
-                        switch ($index) {
-                            case 0:
-                                $category1[] = $categoryData;
-                                break;
-                            case 1:
-                                $category2[] = $categoryData;
-                                break;
-                            case 2:
-                                $category3[] = $categoryData;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-    
-            $note->category1 = $category1;
-            $note->category2 = $category2;
-            $note->category3 = $category3;
-        }
-
-        return view('backend.notes.notes', compact('notes', 'key'));
-    }
-*/
     public function Add(){
         $categories = Category::orderBy('name', 'asc')->get();
         return view('backend.notes.add',compact('categories'));
     }
 
     public function Store(Request $request){
+
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->route('notes')->with($notification); 
+        }
+
         $categories = [];
 
         if ($request->has('category1')) {
@@ -157,8 +120,6 @@ class NoteController extends Controller
         $texts = Text::where('note_id', $id)->orderBy('order', 'asc')->get();
         
        
-        
-        
         $category1 = [];
         $category2 = [];
         $category3 = [];
@@ -199,6 +160,14 @@ class NoteController extends Controller
     }
 
     public function StoreText(Request $request){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->to('/view/note/' . $request->id)->with($notification);
+        }
+
         $text = Text::where('note_id', $request->id)->orderBy('order', 'desc')->first();
         if($text !== null){
             $new_order=$text->order + 1;
@@ -226,6 +195,14 @@ class NoteController extends Controller
 
     public function Up($note_id, $text_id)
     {
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification); 
+        }
+
         $contentToMoveUp = Text::where('note_id', $note_id)
             ->where('id', $text_id)
             ->first();
@@ -243,11 +220,19 @@ class NoteController extends Controller
             }
         }
         $this->reorderTexts($note_id);
-        return redirect()->back()->with('success', 'Ordine aggiornato correttamente');
+        return redirect()->back()->with('success', 'Order updated');
     }
 
     public function Down($note_id, $text_id)
     {
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification); 
+        }
+        
         $contentToMoveDown = Text::where('note_id', $note_id)
             ->where('id', $text_id)
             ->first();
@@ -265,7 +250,7 @@ class NoteController extends Controller
             }
         }
         $this->reorderTexts($note_id);
-        return redirect()->back()->with('success', 'Ordine aggiornato correttamente');
+        return redirect()->back()->with('success', 'Ordine updated');
     }
 
     private function reorderTexts($note_id)
@@ -289,6 +274,14 @@ class NoteController extends Controller
 
     public function UpdateNote(Request $request){
 
+            if (auth()->user()->isDemo()) {
+                $notification = array(
+                    'message' => 'Demo mode - crud operations are not allowed',
+                    'alert-type' => 'error'
+                );
+                return redirect()->to('view/note/'.$request->id)->with($notification); 
+            }
+        
             $categories = [];
 
             if ($request->has('category1')) {
@@ -318,6 +311,14 @@ class NoteController extends Controller
     }
 
     public function UpdateText(Request $request){
+            if (auth()->user()->isDemo()) {
+                $notification = array(
+                    'message' => 'Demo mode - crud operations are not allowed',
+                    'alert-type' => 'error'
+                );
+                return redirect()->to('view/note/'.$request->note_id)->with($notification); 
+            }
+            
             $note_id = $request->note_id;
             $text_id = $request->id;
             $text = $request->text;
@@ -333,6 +334,14 @@ class NoteController extends Controller
     }
 
     public function Delete($id){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
         $notes = Note::findOrFail($id);
         if(($notes->image)&&(Storage::exists($notes->image))) {
             unlink($notes->image);
@@ -348,6 +357,14 @@ class NoteController extends Controller
     }
 
     public function DeleteText($note_id, $text_id){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
         $text = Text::findOrFail($text_id);
 
         try {

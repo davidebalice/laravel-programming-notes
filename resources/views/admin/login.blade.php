@@ -26,12 +26,8 @@
                                     <div class="mb-4 mt-3 text-center">
                                         <img src="{{ asset('backend/assets/images/logo2.png') }}" width="160" alt="" />
                                     </div>
-                                    <div class="p-3 rounded">
-                                        <div class="text-center">
-                                            <h3 class="adminLogin">Admin login</h3>
-                                        </div>
-
-                                        @if (env('DEMO_MODE'))
+                                    <div class="p-2 rounded">
+                                      
                                             <div class="loginData">
                                                 <b>Demo data</b>:
                                                 <br /><br />
@@ -41,7 +37,7 @@
                                                     Password: 12345678
                                                 </p>
                                             </div>
-                                        @endif
+                                      
 
                                         <div class="form-body">
                                             <form class="row g-3" method="POST" action="{{ route('login') }}">

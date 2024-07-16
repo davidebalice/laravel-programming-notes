@@ -17,14 +17,6 @@
 
 <body>
     <main class="main pages">
-        <div class="page-header breadcrumb-wrap">
-            <div class="container">
-                <div class="breadcrumb">
-                    <a href="{{ url('/') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                    <span></span>  My Account
-                </div>
-            </div>
-        </div>
         <div class="page-content pt-150 pb-150">
             <div class="container">
                 <div class="row">

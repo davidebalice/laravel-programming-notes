@@ -35,6 +35,13 @@ class AdminController extends Controller
     } 
 
     public function Store(Request $request){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         $id = Auth::user()->id;
         $data = User::find($id);
         $data->name = $request->name;
@@ -65,6 +72,13 @@ class AdminController extends Controller
     }
 
     public function UpdatePassword(Request $request){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         $request->validate([
             'old_password' => 'required',
             'new_password' => 'required|confirmed', 
@@ -96,39 +110,6 @@ class AdminController extends Controller
         return view('vendor.inactive_vendor_details',compact('inactiveVendorDetails'));
     }
 
-    public function ActiveVendorApprove(Request $request){
-        $verdor_id = $request->id;
-        $user = User::findOrFail($verdor_id)->update([
-            'status' => 'active',
-        ]);
-
-        $notification = array(
-            'message' => 'Vendor active',
-            'alert-type' => 'success'
-        );
-
-        $user = User::where('role','vendor')->get();
-        Notification::send($user, new VendorApproveNotification($request));
-        return redirect()->route('vendor.active')->with($notification);
-    }
-
-    public function ActiveVendorDetails($id){
-        $activeVendorDetails = User::findOrFail($id);
-        return view('vendor.active_vendor_details',compact('activeVendorDetails'));
-    }
-
-    public function InActiveVendorApprove(Request $request){
-        $verdor_id = $request->id;
-        $user = User::findOrFail($verdor_id)->update([
-            'status' => 'inactive',
-        ]);
-        $notification = array(
-            'message' => 'Vendor inactive ',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('vendor.inactive')->with($notification);
-    }
-
     public function Admin(){
         $alladminuser = User::where('role','admin')->latest()->get();
         return view('backend.admin.admin',compact('alladminuser'));
@@ -140,6 +121,13 @@ class AdminController extends Controller
     }
 
     public function AdminUserStore(Request $request){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         $user = new User();
         $user->username = $request->username;
         $user->name = $request->name;
@@ -170,6 +158,13 @@ class AdminController extends Controller
     }
 
     public function AdminUserUpdate(Request $request,$id){
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         $user = User::findOrFail($id);
         $user->username = $request->username;
         $user->surname = $request->surname;
@@ -194,7 +189,13 @@ class AdminController extends Controller
     }
 
     public function DeleteAdminRole($id){
-
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         $user = User::findOrFail($id);
         if (!is_null($user)) {
             $user->delete();

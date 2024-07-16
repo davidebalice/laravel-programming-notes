@@ -77,4 +77,20 @@ class User extends Authenticatable
             return $hasPermission;
         } 
     }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isUser()
+    {
+        return $this->hasRole('user');
+    }
+
+    public function isDemo()
+    {
+        return $this->demo;
+    }
+
 }
