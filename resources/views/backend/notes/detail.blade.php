@@ -8,7 +8,7 @@
 
 <div class="page-content">
 	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-		<div class="breadcrumb-title pe-3">Detail  </div>
+		<div class="breadcrumb-title pe-3">Detail</div>
 		<div class="ps-3">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb mb-0 p-0">
@@ -28,7 +28,20 @@
             < Back
         </button>
     </a>
+
 	
+
+	<form action="" method="GET">
+		<select name="language" id="language-selector">
+			<option value="javascript">JavaScript</option>
+			<option value="html">HTML</option>
+			<option value="css">CSS</option>
+			<!-- Aggiungi altre lingue supportate -->
+		</select>
+		<input type="submit" value="Cambia lingua">
+	</form>
+</div>
+
 	<div id="editFormContainer" class="editFormContainer">
 		<form id="editForm" method="post" action="{{ route('update.text') }}" class="editForm">
 			@csrf
@@ -141,30 +154,10 @@
 										</div>
 										<br />
 										
-										<div id="quill-editor" style="height:300px;overflow-y:auto">
-												
+										<div class="form-group col-sm-12 text-secondary">
+											<div id="monaco-editor-code" data-textarea-id="code-new" style="width:100%;height: 300px; border: 1px solid #ddd;"></div>
+											<textarea name="text" id="code-new" class="form-control d-none" style="width:100%;height: 300px; border: 1px solid #ddd;"></textarea>
 										</div>
-										<textarea name="text" class="form-control d-none" id="quill-editor-area"></textarea>
-
-										<script>
-										document.addEventListener('DOMContentLoaded', function() {
-											if (document.getElementById('quill-editor-area')) {
-												var editor = new Quill('#quill-editor', {
-													theme: 'snow'
-												});
-												var quillEditor = document.getElementById('quill-editor-area');
-												editor.on('text-change', function() {
-													quillEditor.value = editor.root.innerHTML;
-												});
-
-												quillEditor.addEventListener('input', function() {
-													editor.root.innerHTML = quillEditor.value;
-												});
-											}
-										});
-										</script>
-
-
 									</div>
 								</div>
 
@@ -177,40 +170,22 @@
 
 							<br /><br />
 
-							@if (count($texts) === 0)
-								<p><br /><br />No text or code found<br /><br /></p>
-							@endif
 
+							<div id="noteContainer">
 
-							@foreach ($texts as $text)
-								<input type="hidden" id="type{{$text->id}}" value="{{ $text->type }}">
+								@if (count($texts) === 0)
+									<p><br /><br />No text or code found<br /><br /></p>
+								@endif
 
-								<div class="noteRow">
-									@if ($text->type === "text")
-										<div class="buttonContainerText">
-											<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
-												<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
-											</a>
-											<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-												<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
-											</a>
-											<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-												<i class="bx bx-down-arrow" data-toggle="tooltip" title="Down"></i>
-											</a>
-											<a href="{{ route('delete.text', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox" id="row_delete{{$text->id}}" >
-												<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
-											</a>
-										</div>
-										<div id="text{{ $text->id }}">{!! $text->text !!}</div>
-									@else
-										<div class="buttonWrapper">
-											<div class="buttonContainer">
-												<a href="#" onclick="$().saveCode({{$text->id}},{{$text->note_id}})" class="buttonBox">
-													<i class="bx bx-save" data-toggle="tooltip" title="Save"></i>
-												</a>
-												<!--a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
+								@foreach ($texts as $text)
+									<input type="hidden" id="type{{$text->id}}" value="{{ $text->type }}">
+
+									<div class="noteRow">
+										@if ($text->type === "text")
+											<div class="buttonContainerText">
+												<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
 													<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
-												</a-->
+												</a>
 												<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
 													<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
 												</a>
@@ -221,19 +196,40 @@
 													<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
 												</a>
 											</div>
-											<button class="btnCopy" data-clipboard-target="#code{{ $text->id }}">
-												<i class="bx bx-copy"></i>Copy
-											</button>
-										</div>
-										<!--pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{!! $text->text !!}</code></pre-->
+											<div id="text{{ $text->id }}">{!! $text->text !!}</div>
+										@else
+											<div class="buttonWrapper">
+												<div class="buttonContainer">
+													<a href="#" onclick="$().saveCode({{$text->id}},{{$text->note_id}})" class="buttonBox">
+														<i class="bx bx-save" data-toggle="tooltip" title="Save"></i>
+													</a>
+													<!--a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
+														<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
+													</a-->
+													<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
+														<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
+													</a>
+													<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
+														<i class="bx bx-down-arrow" data-toggle="tooltip" title="Down"></i>
+													</a>
+													<a href="{{ route('delete.text', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox" id="row_delete{{$text->id}}" >
+														<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
+													</a>
+												</div>
+												<button class="btnCopy" data-clipboard-target="#code{{ $text->id }}">
+													<i class="bx bx-copy"></i>Copy
+												</button>
+											</div>
+											<!--pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{!! $text->text !!}</code></pre-->
 
-										<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%; height:300px; border:1px solid #ddd;"></div>
-										<textarea name="text" id="code{{ $text->id }}" class="form-control d-none">{!! $text->text !!}</textarea>
+											<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%; height:300px; border:1px solid #ddd;"></div>
+											<textarea name="text" id="code{{ $text->id }}" class="form-control d-none">{!! $text->text !!}</textarea>
 
-									@endif
-								</div>
-							@endforeach
+										@endif
+									</div>
+								@endforeach
 
+							</div>
 						</div>
 					</div>
 				</div>
@@ -244,7 +240,10 @@
 
 
 <script type="text/javascript">
+	let editorCode = null;
+
     $(document).ready(function (){
+		
         $('#addForm').validate({
             rules: {
                 name: {
@@ -300,12 +299,56 @@
 			$('#addForm').slideDown();
 			$('.addButton').hide();
 			$('.closeButton').show();
+			$('#noteContainer').hide();
+			document.querySelector('input[name="type"][value="text"]').checked = true;
+			if(editorCode==null){
+				require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
+				require(['vs/editor/editor.main'], function() {
+					const editorContainerCode = document.getElementById('monaco-editor-code');
+					editorCode = monaco.editor.create(editorContainerCode, {
+						value: '',
+						language: 'plain-text',
+						lineNumbers: 'off',
+						theme: 'vs-light',
+						readOnly: false
+					});
+					editorCode.onDidChangeModelContent(() => {
+						document.getElementById('code-new').value = editorCode.getValue();
+					});
+				});
+			}
+			else{
+				require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
+				require(['vs/editor/editor.main'], function() {
+					const editorContainerCode = document.getElementById('monaco-editor-code');
+					editorCode.updateOptions({
+						language: 'plain-text',
+						lineNumbers: 'off',
+						theme: 'vs-light',
+						readOnly: false
+					});
+				});
+			}
 		});
 
 		closeButton.addEventListener('click', event => {
 			$('#addForm').slideUp();
 			$('.addButton').show();
 			$('.closeButton').hide();
+			$('#noteContainer').slideDown();
+			if(editorCode!=null){
+				require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
+				require(['vs/editor/editor.main'], function() {
+					const editorContainerCode = document.getElementById('monaco-editor-code');
+					editorCode.updateOptions({
+						value: '',
+						language: 'javascript',
+						lineNumbers: 'on',
+						theme: 'vs-dark',
+						readOnly: false
+					});
+				});
+			}
 		});
 
 		(function($) {
@@ -330,7 +373,12 @@
 					},
 					success: function(response) {
 						if(response.message.includes("Demo")){
-							swal("Demo mode", response.message, "error");
+							Swal.fire({
+								title: 'Demo mode',
+								text: response.message,
+								icon: 'error',
+								confirmButtonText: 'Ok'
+							});
 						}
 						else{
 							toastr.success(response.message);
@@ -417,8 +465,8 @@
 	});
 
     document.addEventListener('DOMContentLoaded', function() {
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
-        
+
+		require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
         require(['vs/editor/editor.main'], function() {
             const editors = document.querySelectorAll('.monaco-editor-container');
 
@@ -435,9 +483,41 @@
                 editor.onDidChangeModelContent(function() {
                     document.getElementById(textareaId).value = editor.getValue();
                 });
+
+				
             });
-        });
-    });
+
+			const radioButtons = document.querySelectorAll('input[name="type"]');
+			radioButtons.forEach(radio => {
+				radio.addEventListener('change', () => {
+					const selectedType = document.querySelector('input[name="type"]:checked').value;
+					if (selectedType === 'text') {
+						require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
+						require(['vs/editor/editor.main'], function() {
+							editorCode.updateOptions({
+								value: '',
+								language: 'plain-text',
+								lineNumbers: 'off',
+								theme: 'vs-light',
+								readOnly: false
+   							 });
+						});
+					} else if (selectedType === 'code') {
+						require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs' }});
+						require(['vs/editor/editor.main'], function() {
+							editorCode.updateOptions({
+								value: '',
+								language: 'javascript',
+								lineNumbers: 'on',
+								theme: 'vs-dark',
+								readOnly: false
+   							 });
+						});
+					}
+				});
+		});
+	});
+});
 </script>
 
 @endsection

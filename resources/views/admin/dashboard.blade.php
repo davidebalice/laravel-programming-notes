@@ -28,8 +28,8 @@ $currentLocale = app()->getLocale();
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<title>Programming notes - davidebalice.dev</title>
 </head>
 
@@ -112,7 +112,12 @@ $currentLocale = app()->getLocale();
 		   break;
 	   
 		   case 'warning':
-		   swal("Demo mode", "{{ Session::get('message') }}", "warning");
+		   Swal.fire({
+				title: 'Demo mode',
+				text: '{{ Session::get('message') }}',
+				icon: 'error',
+				confirmButtonText: 'Ok'
+			});
 		   toastr.options = {
 				"closeButton": true,
 				"debug": false,
@@ -134,7 +139,12 @@ $currentLocale = app()->getLocale();
 		   break;
 	   
 		   case 'error':
-		   swal("Demo mode", "{{ Session::get('message') }}", "error");
+		   Swal.fire({
+				title: 'Demo mode',
+				text: '{{ Session::get('message') }}',
+				icon: 'error',
+				confirmButtonText: 'Ok'
+			});
 		   toastr.options = {
 			
 				"closeButton": true,
