@@ -2779,7 +2779,7 @@ input.search-control-2::placeholder {
 
 .noteRow {
     width: 100%;
-    margin-bottom: 20px
+    margin-bottom: 20px;
 }
 
 .buttonContainer {
@@ -2806,6 +2806,7 @@ input.search-control-2::placeholder {
     right: 20px;
     width: fit-content;
     flex-direction: column;
+    z-index: 90;
 }
 
 .btnCopy {

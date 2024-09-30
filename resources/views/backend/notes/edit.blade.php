@@ -28,7 +28,7 @@
 
     <div class="containerBody">
 		<div class="main-body">
-			<div class="row">				 
+			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
@@ -96,8 +96,8 @@
 										@if (file_exists($posts->image))
 										<img src="{{ asset($posts->image)}}" style="width: 150px;" alt="">
 										@else
-										<img src="{{ asset('upload/no_image.jpg')}}" style="width: 100px;" alt="">                         
-										@endif   
+										<img src="{{ asset('upload/no_image.jpg')}}" style="width: 100px;" alt="">
+										@endif
 									</div>
 								</div>
 
@@ -122,14 +122,14 @@
             rules: {
                 name: {
                     required : true,
-                }, 
+                },
             },
             messages :{
                 name: {
                     required : 'Enter category',
                 },
             },
-            errorElement : 'span', 
+            errorElement : 'span',
             errorPlacement: function (error,element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);

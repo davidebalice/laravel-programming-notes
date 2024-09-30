@@ -56,10 +56,11 @@ Route::middleware('auth','role:admin')->group(function () {
             Route::post('/update/text' , 'UpdateText')->name('update.text');
             Route::post('/delete/note/{id}' , 'Delete')->name('delete.note');
             Route::post('/delete/text/{note_id}/{text_id}' , 'DeleteText')->name('delete.text');
+            Route::post('/save/code', 'SaveCode')->name('save.code');
             Route::get('up/{note_id}/{text_id}','Up')->name('note.up');
             Route::get('down/{note_id}/{text_id}','Down')->name('note.down');
         });
-    });  
+    });
 });
 
 Route::get('/autocomplete.js', function () {

@@ -14,7 +14,7 @@
                             <h5 class="mt-4 text-white text-center">Personal programming notes<br />and snippets of code management<br />developed in Laravel 
                             </h5>
                         </div>
-                    </div>                                            
+                    </div>
                 </div>
             </div>
         </div>

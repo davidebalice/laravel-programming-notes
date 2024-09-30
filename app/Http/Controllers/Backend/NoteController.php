@@ -333,6 +333,45 @@ class NoteController extends Controller
         return redirect()->to('view/note/'.$note_id)->with($notification); 
     }
 
+    public function SaveCode(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+            'id_note' => 'required|integer',
+            'code' => 'required|string',
+        ]);
+
+        
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+           //return redirect()->to('/view/note/' . $request->id_note)->with($notification);
+           return response()->json(['success' => true, 'message' => 'Demo mode - crud operations are not allowed']);
+        }
+
+
+        $request->validate([
+            'id' => 'required|integer',
+            'code' => 'required|string',
+        ]);
+
+        $id = $request->input('id');
+        $code = $request->input('code');
+
+        $note = Text::find($id);
+
+        if ($note) {
+            $note->text = $code;
+            $note->save();
+
+            return response()->json(['success' => true, 'message' => 'Code saved!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Note not found.'], 404);
+    }
+
     public function Delete($id){
         if (auth()->user()->isDemo()) {
             $notification = array(
