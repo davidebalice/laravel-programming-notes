@@ -15,8 +15,6 @@ $currentLocale = app()->getLocale();
 	<link href="{{asset('backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 	<link href="{{asset('backend/assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
 	<link href="{{asset('backend/assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
-	<link href="{{asset('backend/assets/css/pace.min.css')}}" rel="stylesheet" />
-	<script src="{{asset('backend/assets/js/pace.min.js')}}"></script>
 	<link href="{{asset('backend/assets/css/bootstrap.min.css')}}" rel="stylesheet">
 	<link href="{{asset('backend/assets/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('backend/assets/css/icons.css')}}" rel="stylesheet">
@@ -49,7 +47,6 @@ $currentLocale = app()->getLocale();
 	</div>
 
 	<script src="{{asset('backend/assets/js/bootstrap.bundle.min.js')}}"></script>
-	<script src="{{asset('backend/assets/js/jquery.min.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/metismenu/js/metisMenu.min.js')}}"></script>
 	<script src="{{asset('backend/assets/plugins/jquery-knob/excanvas.js')}}"></script>

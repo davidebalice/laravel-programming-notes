@@ -2788,7 +2788,7 @@ input.search-control-2::placeholder {
     right: 10px;
     gap: 6px;
     width: fit-content;
-    width: 130px;
+    width: 30px;
     margin-top: 10px;
 }
 
@@ -2797,7 +2797,7 @@ input.search-control-2::placeholder {
     position: absolute;
     gap: 6px;
     right: 30px;
-    width: 130px;
+    width: 30px;
 }
 
 .buttonWrapper {
@@ -2812,10 +2812,10 @@ input.search-control-2::placeholder {
 .btnCopy {
     margin-top: 46px;
     margin-right: 10px;
-    background: #30b8f8;
+    background: #fff;
     border: none;
     width: 130px;
-    color: #fff;
+    color: #333;
     border-radius: 4px;
     display: flex;
     justify-content: center;
@@ -2824,24 +2824,34 @@ input.search-control-2::placeholder {
 }
 
 .btnCopy:hover {
-    background: #22a1dd;
-    color: #fff;
+    background: #e1e1e1;
+    color: #555;
 }
 
 .buttonBox {
-    background: #30b8f8;
+    background: #fff;
     width: 30px;
     height: 30px;
-    color: #fff;
+    color: #333;
     border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: content-box;
 }
 
 .buttonBox:hover {
-    background: #22a1dd;
-    color: #fff;
+    background: #e1e1e1;
+    color: #555;
+}
+
+.buttonBox i {
+    font-size: 22px;
+}
+
+.buttonBoxText {
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 1px 0px rgb(0, 0, 0, 0.2);
 }
 
 .categories-container {

@@ -29,8 +29,6 @@
         </button>
     </a>
 
-	
-
 	<form action="" method="GET">
 		<select name="language" id="language-selector">
 			<option value="javascript">JavaScript</option>
@@ -145,7 +143,6 @@
 								
 								<div class="row mb-3">
 									<div class="form-group col-sm-12 text-secondary">
-										
 										<br />
 										<div class="radioContainer">
 											<input type="radio" name="type" value="text" checked> Text
@@ -155,8 +152,8 @@
 										<br />
 										
 										<div class="form-group col-sm-12 text-secondary">
-											<div id="monaco-editor-code" data-textarea-id="code-new" style="width:100%;height: 300px; border: 1px solid #ddd;"></div>
-											<textarea name="text" id="code-new" class="form-control d-none" style="width:100%;height: 300px; border: 1px solid #ddd;"></textarea>
+											<div id="monaco-editor-code" data-textarea-id="code-new" style="width:100%;height: auto;min-height: 500px;overflow: hidden;"></div>
+											<textarea name="text" id="code-new" class="form-control d-none" ></textarea>
 										</div>
 									</div>
 								</div>
@@ -182,30 +179,39 @@
 
 									<div class="noteRow">
 										@if ($text->type === "text")
-											<div class="buttonContainerText">
-												<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
-													<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
-												</a>
-												<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-													<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
-												</a>
-												<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
-													<i class="bx bx-down-arrow" data-toggle="tooltip" title="Down"></i>
-												</a>
-												<a href="{{ route('delete.text', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox" id="row_delete{{$text->id}}" >
-													<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
-												</a>
-											</div>
+												<div class="buttonContainerText">
+													<a href="#" onclick="$().showButtons({{$text->id}})" class="buttonBox buttonBoxText buttonBoxShow" id="buttonShowBox{{$text->id}}">
+														<i class="bx bx-edit" data-toggle="tooltip" title="Edit show"></i>
+													</a>
+												</div>
+
+												<div class="buttonContainerText" id="buttonsBox{{$text->id}}" style="display:none">
+													<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox buttonBoxText">
+														<i class="bx bx-edit" data-toggle="tooltip" title="Edit"></i>
+													</a>
+													<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox buttonBoxText">
+														<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
+													</a>
+													<a href="{{ route('note.down', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox buttonBoxText">
+														<i class="bx bx-down-arrow" data-toggle="tooltip" title="Down"></i>
+													</a>
+													<a href="{{ route('delete.text', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox buttonBoxText" id="row_delete{{$text->id}}" >
+														<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
+													</a>
+												</div>
+											
 											<div id="text{{ $text->id }}">{!! $text->text !!}</div>
 										@else
 											<div class="buttonWrapper">
 												<div class="buttonContainer">
+													<a href="#" onclick="$().showButtons({{$text->id}})" class="buttonBox " id="buttonShowBox{{$text->id}}">
+														<i class="bx bx-edit" data-toggle="tooltip" title="Edit show"></i>
+													</a>
+												</div>
+												<div class="buttonContainer" id="buttonsBox{{$text->id}}" style="display:none">
 													<a href="#" onclick="$().saveCode({{$text->id}},{{$text->note_id}})" class="buttonBox">
 														<i class="bx bx-save" data-toggle="tooltip" title="Save"></i>
 													</a>
-													<!--a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox">
-														<i class="bx bx-pencil" data-toggle="tooltip" title="Edit"></i>
-													</a-->
 													<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
 														<i class="bx bx-up-arrow" data-toggle="tooltip" title="Up"></i>
 													</a>
@@ -216,13 +222,11 @@
 														<i class="bx bx-trash" data-toggle="tooltip" title="Delete"></i>
 													</a>
 												</div>
-												<button class="btnCopy" data-clipboard-target="#code{{ $text->id }}">
-													<i class="bx bx-copy"></i>Copy
+												<button class="btnCopy" id="btnCopy{{ $text->id }}" style="display:none">
+													<i class="bx bx-copy"></i><span id="btnCopyText{{ $text->id }}">Copy</span>
 												</button>
 											</div>
-											<!--pre class="formatCode"><code class="hljs" id="code{{ $text->id }}">{!! $text->text !!}</code></pre-->
-
-											<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%; height:300px; border:1px solid #ddd;"></div>
+											<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%;height: auto;min-height: 100px; overflow: hidden;"></div>
 											<textarea name="text" id="code{{ $text->id }}" class="form-control d-none">{!! $text->text !!}</textarea>
 
 										@endif
@@ -278,20 +282,6 @@
 			reader.readAsDataURL(e.target.files['0']);
 		});
 
-		const clipboard = new ClipboardJS('.btnCopy');
-
-		clipboard.on('success', function(e) {
-			e.trigger.textContent = 'Copied!';
-			setTimeout(function() {
-				e.clearSelection();
-				e.trigger.textContent = 'Copy';
-			}, 1500);
-		});
-
-		clipboard.on('error', function(e) {
-			console.error('Error during copy: ', e.action);
-		});
-
 		const addButton = document.querySelector('.addButton');
 		const closeButton = document.querySelector('.closeButton');
 
@@ -309,8 +299,16 @@
 						value: '',
 						language: 'plain-text',
 						lineNumbers: 'off',
+						automaticLayout: true,
 						theme: 'vs-light',
-						readOnly: false
+						minimap: {enabled: false},
+						scrollBeyondLastLine: false,
+						readOnly: false,
+						padding: {
+							top: 10,
+							left: 10,
+							bottom: 10
+						}
 					});
 					editorCode.onDidChangeModelContent(() => {
 						document.getElementById('code-new').value = editorCode.getValue();
@@ -324,8 +322,16 @@
 					editorCode.updateOptions({
 						language: 'plain-text',
 						lineNumbers: 'off',
+						automaticLayout: true,
 						theme: 'vs-light',
-						readOnly: false
+						minimap: {enabled: false},
+						scrollBeyondLastLine: false,
+						readOnly: false,
+						padding: {
+							top: 10,
+							left: 10,
+							bottom: 10
+						}
 					});
 				});
 			}
@@ -344,8 +350,16 @@
 						value: '',
 						language: 'javascript',
 						lineNumbers: 'on',
+						automaticLayout: true,
 						theme: 'vs-dark',
-						readOnly: false
+						minimap: {enabled: false},
+						scrollBeyondLastLine: false,
+						readOnly: false,
+						padding: {
+							top: 10,
+							left: 10,
+							bottom: 10
+						}
 					});
 				});
 			}
@@ -461,7 +475,24 @@
 			}
 		})(jQuery);
 
-        $('[data-toggle="tooltip"]').tooltip();
+		(function($)
+		{
+			$.fn.showButtons = function(id)
+			{
+				const buttonsBox = $('#buttonsBox'+id);
+				buttonsBox.css('display','flex');
+				buttonsBox.css('width','130px');
+				const buttonShowBox = $('#buttonShowBox'+id);
+				buttonShowBox.css('display','none');
+				const btnCopy = $('#btnCopy'+id);
+				if(btnCopy){
+					btnCopy.css('display','flex');
+				}
+			}
+		})(jQuery);
+
+
+       $('[data-toggle="tooltip"]').tooltip();
 	});
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -473,18 +504,55 @@
             editors.forEach(editorContainer => {
                 const textareaId = editorContainer.dataset.textareaId;
                 const initialValue = document.getElementById(textareaId).value || '';
+				const id = textareaId.replace('code','');
 
                 const editor = monaco.editor.create(editorContainer, {
                     value: initialValue,
                     language: 'javascript',
-                    theme: 'vs-dark'
+					automaticLayout: true,
+					minimap: {enabled: false},
+					scrollBeyondLastLine: false,
+                    theme: 'vs-dark',
+					padding: {
+						top: 10,
+						left: 10,
+						bottom: 10
+					}
                 });
 
                 editor.onDidChangeModelContent(function() {
                     document.getElementById(textareaId).value = editor.getValue();
                 });
 
+				document.getElementById('btnCopy'+id).addEventListener('click', function() {
+					const code = editor.getValue();
+
+					navigator.clipboard.writeText(code).then(() => {
+						$('#btnCopyText'+id).text('Copied');
+						setTimeout(function() {
+							$('#btnCopyText'+id).text('Copy');
+						}, 3000);
+					}).catch(err => {
+						console.error('Errore durante la copia:', err);
+					});
+				});
+
+				function updateEditorHeight() {
+				const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+				const lineCount = editor.getModel().getLineCount();
+				const newHeight = lineHeight * lineCount + 20;
 				
+				const editorDomNode = editor.getDomNode();
+				editorDomNode.style.height = `${newHeight}px`;
+				editor.layout();
+			}
+
+			editor.onDidChangeModelContent(() => {
+				updateEditorHeight();
+			});
+
+			updateEditorHeight();
+
             });
 
 			const radioButtons = document.querySelectorAll('input[name="type"]');
@@ -497,9 +565,17 @@
 							editorCode.updateOptions({
 								value: '',
 								language: 'plain-text',
+								automaticLayout: true,
 								lineNumbers: 'off',
 								theme: 'vs-light',
-								readOnly: false
+								minimap: {enabled: false},
+								scrollBeyondLastLine: false,
+								readOnly: false,
+								padding: {
+									top: 10,
+									left: 10,
+									bottom: 10
+								}
    							 });
 						});
 					} else if (selectedType === 'code') {
@@ -508,9 +584,17 @@
 							editorCode.updateOptions({
 								value: '',
 								language: 'javascript',
+								automaticLayout: true,
 								lineNumbers: 'on',
 								theme: 'vs-dark',
-								readOnly: false
+								minimap: {enabled: false},
+								scrollBeyondLastLine: false,
+								readOnly: false,
+								padding: {
+									top: 10,
+									left: 10,
+									bottom: 10
+								}
    							 });
 						});
 					}
