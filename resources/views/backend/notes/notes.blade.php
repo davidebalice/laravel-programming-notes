@@ -28,7 +28,7 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="table-responsive">
-				<table id="tableView" class="table table-striped table-bordered" style="width:100%">
+				<table id="tableView" class="table table-bordered tableView" style="width:100%">
 					<thead>
 					<tr>
 						<th style="width:150px">Category</th>
@@ -46,23 +46,28 @@
 												<img src="{{ asset($category->image) }}" class="categoryIcon">  
 											@endif
 										@endforeach
-										@foreach($item->category2 as $category)
+										@php
+											/*
+											@foreach($item->category2 as $category)
 											@if (file_exists($category->image))
 												<img src="{{ asset($category->image) }}" class="categoryIcon">  
 											@endif
-										@endforeach
-										@foreach($item->category3 as $category)
-											@if (file_exists($category->image))
-												<img src="{{ asset($category->image) }}" class="categoryIcon">  
-											@endif
-										@endforeach
+											@endforeach
+											@foreach($item->category3 as $category)
+												@if (file_exists($category->image))
+													<img src="{{ asset($category->image) }}" class="categoryIcon">  
+												@endif
+											@endforeach
+											*/
+										@endphp
+										
 									</div>
 								</td>
 								<td>
 									<p class="categoryTitle">{{ $item->name }}</p>
 								</td>
 								<td>
-									<div class="buttonContainer">
+									<div class="buttonContainerNotes">
 										<a href="{{ route('view.note',$item->id) }}">
 											<i class="bx bx-edit viewNoteIcon"></i>
 										</a>

@@ -6,6 +6,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\NoteController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserBackendController;
@@ -39,6 +40,20 @@ Route::middleware('auth','role:admin')->group(function () {
             Route::post('/delete/category/{id}' , 'Delete')->name('delete.category');
             Route::post('/active/category/{id}', 'Active')->name('category.active');
             Route::get('/admin/category/sort/{action}/{id}', 'Sort')->name('admin.category.sort'); 
+        });
+    });
+
+    Route::controller(SubcategoryController::class)->group(function(){
+        Route::get('/admin/subcategories/{category_id?}' , 'Subcategories')->name('subcategories');
+        Route::get('/add/subcategory' , 'Add')->name('add.subcategory');
+        Route::get('/edit/subcategory/{id}' , 'Edit')->name('edit.subcategory');
+
+        Route::group(['middleware' => ['demo_mode']], function () {
+            Route::post('/store/subcategory' , 'Store')->name('store.subcategory');
+            Route::post('/update/subcategory' , 'Update')->name('update.subcategory');
+            Route::post('/delete/subcategory/{id}' , 'Delete')->name('delete.subcategory');
+            Route::post('/active/subcategory/{id}', 'Active')->name('subcategory.active');
+            Route::get('/admin/subcategory/sort/{action}/{id}', 'Sort')->name('admin.subcategory.sort'); 
         });
     });
 

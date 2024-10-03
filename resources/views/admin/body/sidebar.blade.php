@@ -24,6 +24,13 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('subcategories') }}">
+                <div class="parent-icon"><i class='bx bx-list-ul'></i>
+                </div>
+                <div class="menu-title">{{ __('messages.Subcategories') }}</div>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('notes') }}">
                 <div class="parent-icon"><i class='bx bx-edit'></i>
                 </div>
