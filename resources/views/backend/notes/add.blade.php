@@ -23,7 +23,7 @@
 	</div>
 				
 	<a href="{{ route('notes') }}">
-        <button class="btn btn-primary backButton">
+        <button class="btn btn-primary backButton buttonBase">
             < Back
         </button>
     </a>
@@ -37,21 +37,21 @@
 							<form id="myForm" method="post" action="{{ route('store.note') }}" enctype="multipart/form-data" >
 								@csrf
 
-								<div class="row mb-3">
-									<div class="col-sm-3">
+                                <div class="row mb-3" style="align-items: center">
+									<div class="col-sm-2">
 										<h6 class="mb-0">Title</h6>
 									</div>
-									<div class="form-group col-sm-9 text-secondary">
+									<div class="form-group col-sm-10 text-secondary">
 										<input type="text" name="name" class="form-control"   />
 									</div>
 								</div>
 			
-								<div class="row mb-3">
-									<div class="col-sm-3">
+                                <div class="row mb-3" style="align-items: center">
+									<div class="col-sm-2">
 										<h6 class="mb-0">Category</h6>
 									</div>
-									<div class="form-group col-sm-9 text-secondary">
-										<select name="category1" class="form-select" id="inputVendor">
+									<div class="form-group col-sm-10 text-secondary">
+										<select name="category1" id="category1" class="form-select">
 											<option></option>
 											@foreach($categories as $cat)
 												<option value="{{ $cat->id }}">{{ $cat->name }}</option>
@@ -60,11 +60,26 @@
 									</div>
 								</div>
 
-								<div class="row mb-3">
-									<div class="col-sm-3">
+                                <div class="row mb-3" style="align-items: center">
+									<div class="col-sm-2">
+										<h6 class="mb-0">Subcategory</h6>
+									</div>
+									<div class="form-group col-sm-10 text-secondary">
+										<select name="subcategory_id" id="subcategory" class="form-select">
+											<option></option>
+											@foreach($subcategories as $subcat)
+												<option value="{{ $subcat->id }}">{{ $subcat->name }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+
+
+                                <div class="row mb-3" style="align-items: center">
+									<div class="col-sm-2">
 										<h6 class="mb-0">Category 2</h6>
 									</div>
-									<div class="form-group col-sm-9 text-secondary">
+									<div class="form-group col-sm-10 text-secondary">
 										<select name="category2" class="form-select" id="inputVendor2">
 											<option></option>
 											@foreach($categories as $cat)
@@ -75,9 +90,9 @@
 								</div>
 
 								<div class="row">
-									<div class="col-sm-3"></div>
-									<div class="col-sm-9 text-secondary">
-										<input type="submit" class="btn btn-primary px-4" value="Insert" />
+									<div class="col-sm-2"></div>
+									<div class="col-sm-10 text-secondary">
+										<input type="submit" class="btn btn-primary px-4 buttonBase" value="Insert" />
 									</div>
 								</div>
 							</form>
@@ -125,6 +140,26 @@
 				$('#showImage').attr('src',e.target.result);
 			}
 			reader.readAsDataURL(e.target.files['0']);
+		});
+
+		$('#category1').on('change', function() {
+			var categoryId = $(this).val();
+			if(categoryId) {
+				$.ajax({
+					url: '/get-subcategories/' + categoryId,
+					type: 'GET',
+					success: function(data) {
+						$('#subcategory').empty();
+						$('#subcategory').append('<option value="">- No subcategory -</option>');
+						$.each(data, function(key, value) {
+							$('#subcategory').append('<option value="' + value.id + '">' + value.name + '</option>');
+						});
+					}
+				});
+			} else {
+				$('#subcategory').empty();
+				$('#subcategory').append('<option value="">- No subcategory -</option>');
+			}
 		});
 	});
 </script>

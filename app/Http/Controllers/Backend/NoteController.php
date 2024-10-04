@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Subcategory;
 use App\Models\Note;
 use App\Models\Text;
 use App\Models\User;
@@ -74,7 +75,10 @@ class NoteController extends Controller
 
     public function Add(){
         $categories = Category::orderBy('name', 'asc')->get();
-        return view('backend.notes.add',compact('categories'));
+        $firstCategory = Category::orderBy('name')->first();
+        $subcategories = Subcategory::where('category_id', $firstCategory['id'])->orderBy('name', 'asc')->get();
+
+        return view('backend.notes.add',compact('categories','subcategories'));
     }
 
     public function Store(Request $request){
@@ -104,6 +108,7 @@ class NoteController extends Controller
         $note_id = Note::insertGetId([
             'categories' => $categoriesJson,
             'name' => $request->name,
+            'subcategory_id' => $request->subcategory_id,
             'created_at' => now(),
         ]);
 
@@ -119,7 +124,6 @@ class NoteController extends Controller
         $note = Note::findOrFail($id);
         $texts = Text::where('note_id', $id)->orderBy('order', 'asc')->get();
         
-       
         $category1 = [];
         $category2 = [];
         $category3 = [];
@@ -136,6 +140,7 @@ class NoteController extends Controller
                     switch ($index) {
                         case 0:
                             $category1[] = $categoryData;
+                            $subcategories = Subcategory::where('category_id', $categoryData['id'])->get();
                             break;
                         case 1:
                             $category2[] = $categoryData;
@@ -156,7 +161,7 @@ class NoteController extends Controller
 
         $categories = Category::orderBy('name', 'asc')->get();
         
-        return view('backend.notes.detail',compact('note','texts','categories'));
+        return view('backend.notes.detail',compact('note','texts','categories','subcategories'));
     }
 
     public function StoreText(Request $request){
@@ -300,6 +305,7 @@ class NoteController extends Controller
             Note::findOrFail($note_id)->update([
             'name' => $request->name,
             'categories' => $categoriesJson,
+            'subcategory_id' => $request->subcategory_id,
             ]);
 
             $notification = array(

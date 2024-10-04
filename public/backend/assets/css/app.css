@@ -1,4 +1,14 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap);
+
+:root {
+    --main-bg-color: #f0f0f0;
+    --primary-color: #3498db;
+    --primary-color-hover: #247db9;
+    --secondary-color: #2ecc71;
+    --font-size: 16px;
+    --padding: 10px;
+}
+
 body {
     font-size: 14px;
     color: #4c5258;
@@ -93,13 +103,13 @@ p {
 
 .page-wrapper {
     height: 100%;
-    margin-top: 60px;
+    margin-top: 36px;
     margin-bottom: 30px;
     margin-left: 250px;
 }
 
 .page-content {
-    padding: 1.5rem 1.5rem 0.7rem 1.5rem;
+    padding: 0 1.5rem 0.7rem 1.5rem;
 }
 
 .page-footer {
@@ -370,8 +380,7 @@ p {
 }
 
 .breadcrumb-title {
-    font-size: 20px;
-    border-right: 1.5px solid #aaa4a4;
+    font-size: 17px;
 }
 
 .page-breadcrumb .breadcrumb li.breadcrumb-item {
@@ -2454,7 +2463,7 @@ input.search-control-2::placeholder {
 
 .deleteNoteIcon {
     color: #ff0000;
-    font-size: 24px;
+    font-size: 20px;
     margin-top: 2px;
 }
 
@@ -2464,7 +2473,7 @@ input.search-control-2::placeholder {
 
 .viewNoteIcon {
     color: #30b8f6;
-    font-size: 34px;
+    font-size: 28px;
     margin-left: 5px;
 }
 
@@ -2636,7 +2645,7 @@ input.search-control-2::placeholder {
     gap: 8px;
 }
 .categoryIcon {
-    width: 60px;
+    width: 40px;
     height: auto !important;
 }
 .categoryTitle {
@@ -2663,13 +2672,13 @@ input.search-control-2::placeholder {
 }
 .closeButton {
     display: none;
-    background: #30b8f8;
-    border-color: #30b8f8;
+    padding: 8px 16px;
+    border: none;
+    background: var(--primary-color);
 }
 .closeButton:hover {
     display: none;
-    background: #22a1dd;
-    border-color: #22a1dd;
+    background: var(--primary-color-hover);
 }
 .saveButton {
     background: #24ac16;
@@ -2717,8 +2726,10 @@ input.search-control-2::placeholder {
     min-height: 200px !important;
 }
 .editInput {
-    background: #f1f1f1;
-    padding: 22px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 .search-container {
     display: flex;
@@ -2800,7 +2811,7 @@ input.search-control-2::placeholder {
     gap: 14px;
     width: fit-content;
     width: 100px;
-    margin-top: 10px;
+    margin-top: 1px;
 }
 
 .buttonContainerText {
@@ -2889,4 +2900,83 @@ input.search-control-2::placeholder {
 
 .tableView tr:hover {
     background-color: #f9f9f9;
+}
+
+.tableView thead {
+    background-color: #f9f9f9;
+}
+
+.imgIconContainer {
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+}
+
+.buttonBase {
+    background: var(--primary-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 16px;
+    border: none;
+}
+
+.buttonBase:hover {
+    background: var(--primary-color-hover);
+}
+
+.buttonBase i {
+    font-size: 20px;
+}
+
+.buttonBase span {
+    font-size: 15px;
+}
+
+.categorySelectorContainer {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.categorySelectorContainer select {
+    padding: 8px;
+    width: 300px;
+    background-color: white;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path fill="black" d="M0 0L5 6L10 0H0Z"/></svg>')
+        no-repeat right 10px center;
+    background-size: 12px;
+    padding-right: 20px;
+}
+
+.openTitleForm i {
+    font-size: 25px;
+    color: var(--primary-color);
+}
+
+.editButtonContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 42px;
+    justify-content: space-between;
+}
+
+.editSelect {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #f9f9f9;
+    margin-top: 8px;
+}
+
+.monacoEditor {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    overflow: hidden;
+    border: 1px solid #ddd;
 }

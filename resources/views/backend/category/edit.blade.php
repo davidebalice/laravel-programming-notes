@@ -20,14 +20,14 @@
     </div>
 
     <a href="{{ route('categories') }}">
-        <button class="btn btn-primary backButton">
+        <button class="btn btn-primary backButton buttonBase">
             < Back
         </button>
     </a>
 
     <div class="containerBody">
         <div class="main-body">
-            <div class="row">					 
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
@@ -37,41 +37,41 @@
                                 <input type="hidden" name="id" value="{{ $category->id }}">
                                 <input type="hidden" name="old_image" value="{{ $category->category_image }}">
 
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Category Name</h6>
+                                <div class="row mb-3" style="align-items: center">
+                                    <div class="col-sm-2">
+                                        <h6 class="mb-0">Category name</h6>
                                     </div>
-                                    <div class="form-group col-sm-9 text-secondary">
+                                    <div class="form-group col-sm-10 text-secondary">
                                         <input type="text" name="name" class="form-control" value="{{ $category->name }}"   />
                                     </div>
                                 </div>
                                 
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
+                                <div class="row mb-3" style="align-items: center">
+                                    <div class="col-sm-2">
                                         <h6 class="mb-0">Image </h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="file" name="image" class="form-control"  id="image"   />
+                                    <div class="col-sm-10 text-secondary">
+                                        <input type="file" name="image" class="form-control"  id="image" />
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <h6 class="mb-0"> </h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col-sm-10 text-secondary">
                                         @if (file_exists($category->image))
-                                        <img id="showImage" src="{{ asset($category->image)   }}" alt="Admin" style="width:100px;"  >
+                                        <img id="showImage" src="{{ asset($category->image)   }}" alt="Admin" style="width:100px;">
                                         @else
-                                        <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:100px;"  >                 
+                                        <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:100px;">
                                         @endif
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="submit" class="btn btn-primary px-4" value="Save" />
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10 text-secondary">
+                                        <input type="submit" class="btn btn-primary px-4 buttonBase" value="Save" />
                                     </div>
                                 </div>
                             </form>

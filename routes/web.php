@@ -47,6 +47,7 @@ Route::middleware('auth','role:admin')->group(function () {
         Route::get('/admin/subcategories/{category_id?}' , 'Subcategories')->name('subcategories');
         Route::get('/add/subcategory' , 'Add')->name('add.subcategory');
         Route::get('/edit/subcategory/{id}' , 'Edit')->name('edit.subcategory');
+        Route::get('/get-subcategories/{category_id}', 'getSubcategories')->name('get.subcategories');
 
         Route::group(['middleware' => ['demo_mode']], function () {
             Route::post('/store/subcategory' , 'Store')->name('store.subcategory');

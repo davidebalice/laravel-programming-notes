@@ -50,7 +50,7 @@ class SubcategoryController extends Controller
                 'message' => 'Demo mode - crud operations are not allowed',
                 'alert-type' => 'error'
             );
-            return redirect()->route('subcategories')->with($notification); 
+            return redirect()->route('subcategories', $request->category_id)->with($notification);
         }
 
         Subcategory::insert([
@@ -64,7 +64,7 @@ class SubcategoryController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('subcategories')->with($notification);
+        return redirect()->route('subcategories', $request->category_id)->with($notification);
     }
 
     public function Edit($id){
@@ -79,16 +79,14 @@ class SubcategoryController extends Controller
                 'message' => 'Demo mode - crud operations are not allowed',
                 'alert-type' => 'error'
             );
-            return redirect()->route('subcategories')->with($notification); 
+            return redirect()->route('subcategories', $request->category_id)->with($notification);
         }
 
         $subcat_id = $request->id;
-
-       
+   
         Subcategory::findOrFail($subcat_id)->update([
             'name' => $request->name,
             'slug' => strtolower(str_replace(' ', '-',$request->name)),
-            'category_id' => $request->category_id,
         ]);
 
         $notification = array(
@@ -96,7 +94,7 @@ class SubcategoryController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('subcategories')->with($notification); 
+        return redirect()->route('subcategories', $request->category_id)->with($notification);
     }
 
     public function Delete($id){
@@ -190,7 +188,13 @@ class SubcategoryController extends Controller
             }
         });
 
-        $subcategories = Subcategory::orderby('position','ASC')->paginate(15);
+        $subcategories = Subcategory::orderby('position','ASC')->paginate(30);
         return view('backend.subcategory.categories',compact('categories'));
+    }
+
+    public function getSubcategories($category_id)
+    {
+        $subcategories = Subcategory::where('category_id', $category_id)->get();
+        return response()->json($subcategories);
     }
 }

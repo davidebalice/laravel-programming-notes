@@ -2,9 +2,9 @@
 @section('admin')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<div class="page-content"> 
+<div class="page-content">
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Edit category</div>
+        <div class="breadcrumb-title pe-3">Edit subcategory</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -27,51 +27,29 @@
 
     <div class="containerBody">
         <div class="main-body">
-            <div class="row">					 
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form id="myForm" method="post" action="{{ route('update.category') }}" enctype="multipart/form-data" >
+                            <form id="myForm" method="post" action="{{ route('update.subcategory') }}" >
                                 @csrf
                             
-                                <input type="hidden" name="id" value="{{ $category->id }}">
-                                <input type="hidden" name="old_image" value="{{ $category->category_image }}">
+                                <input type="hidden" name="id" value="{{ $subcategory->id }}">
+                                <input type="hidden" name="category_id" value="{{ $subcategory->category_id }}">
 
                                 <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Category Name</h6>
+                                    <div class="col-sm-2">
+                                        <h6 class="mb-0">Subcategory name</h6>
                                     </div>
-                                    <div class="form-group col-sm-9 text-secondary">
-                                        <input type="text" name="name" class="form-control" value="{{ $category->name }}"   />
+                                    <div class="form-group col-sm-10 text-secondary">
+                                        <input type="text" name="name" class="form-control" value="{{ $subcategory->name }}"   />
                                     </div>
                                 </div>
                                 
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Image </h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="file" name="image" class="form-control"  id="image"   />
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0"> </h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        @if (file_exists($category->image))
-                                        <img id="showImage" src="{{ asset($category->image)   }}" alt="Admin" style="width:100px;"  >
-                                        @else
-                                        <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:100px;"  >                 
-                                        @endif
-                                    </div>
-                                </div>
-
                                 <div class="row">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="submit" class="btn btn-primary px-4" value="Save" />
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10 text-secondary">
+                                        <input type="submit" class="btn btn-primary px-4 backButton" value="Save" />
                                     </div>
                                 </div>
                             </form>

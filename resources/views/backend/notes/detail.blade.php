@@ -24,7 +24,7 @@
 	</div>
 	
 	<a href="{{ route('notes') }}">
-        <button class="btn btn-primary backButton">
+        <button class="btn btn-primary backButton buttonBase">
             < Back
         </button>
     </a>
@@ -34,7 +34,6 @@
 			<option value="javascript">JavaScript</option>
 			<option value="html">HTML</option>
 			<option value="css">CSS</option>
-			<!-- Aggiungi altre lingue supportate -->
 		</select>
 		<input type="submit" value="Cambia lingua">
 	</form>
@@ -67,22 +66,28 @@
 	<div id="titleFormContainer" class="editFormContainer">
 		<form id="titleForm" method="post" action="{{ route('update.note') }}" class="editForm">
 			@csrf
-			<div class="closeContainer">
-				<div onclick="$().closeTitleForm()" class="closeEdit">close</div>
-			</div>
-
+			
 			<input type="hidden" name="id" value="{{$note->id}}">
 			
 			<div class="row mb-3">
 				<div class="form-group col-sm-12 text-secondary">
 					<input type="text" name="name" class="form-control editInput" value="{{ $note->name }}" required>
-					<select name="category1">
+
+					<select name="category1" id="category1" class="editSelect">
 						@foreach($categories as $cat)
 							<option value="{{ $cat->id }}"  @if(isset($note->category1[0]) && $cat->id == $note->category1[0]->id) selected @endif>{{ $cat->name }}</option>
 						@endforeach
 						<option value=""  @if(!isset($note->category1[0])) selected @endif> - No category - </option>
 					</select>
-					<select name="category2">
+
+					<select name="subcategory_id" id="subcategory" class="editSelect">
+						@foreach($subcategories as $subcat)
+							<option value="{{ $subcat->id }}"  @if(isset($note->subcategory_id)) selected @endif>{{ $subcat->name }}</option>
+						@endforeach
+						<option value=""  @if(!isset($note->subcategory_id)) selected @endif> - No subcategory - </option>
+					</select>
+
+					<select name="category2" class="editSelect">
 						@foreach($categories as $cat)
 							<option value="{{ $cat->id }}"  @if(isset($note->category2[0]) && $cat->id == $note->category2[0]->id) selected @endif>{{ $cat->name }}</option>
 						@endforeach
@@ -91,10 +96,9 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-sm-12 text-secondary">
-					<input type="submit" class="btn btn-primary px-4 saveButton" value="Save" />
-				</div>
+			<div class="editButtonContainer">
+				<input type="submit" class="btn btn-primary px-4 saveButton buttonBase" value="Save" />
+				<div onclick="$().closeTitleForm()" class="btn btn-primary px-4 buttonBase">Close</div>
 			</div>
 		</form>
 	</div>
@@ -125,16 +129,16 @@
 									@endforeach
 									<h5>{{ $note->name }}
 									
-										<a href="#" onclick="$().openTitleForm()">
-											<i class="bx bx-pencil"></i>
+										<a href="#" onclick="$().openTitleForm()" class="openTitleForm">
+											<i class="bx bx bx-edit"></i>
 										</a>
 									
 									</h5>
 								</div>
 							</div>
 
-							<button class="btn btn-primary addButton">+ Add Text or Code</button>
-							<button class="btn btn-primary closeButton">- Close</button>
+							<button class="btn btn-primary addButton buttonBase"> <i class="fa fa-plus-circle"></i>  Add Text or Code</button>
+							<button class="btn btn-primary closeButton"><i class="fa fa-minus-circle"></i> Close</button>
 								
 							<form id="addForm" method="post" action="{{ route('store.text') }}" class="addForm">
 								@csrf
@@ -152,7 +156,7 @@
 										<br />
 										
 										<div class="form-group col-sm-12 text-secondary">
-											<div id="monaco-editor-code" data-textarea-id="code-new" style="width:100%;height: auto;min-height: 500px;overflow: hidden;"></div>
+											<div id="monaco-editor-code" data-textarea-id="code-new" class="monacoEditor"></div>
 											<textarea name="text" id="code-new" class="form-control d-none" ></textarea>
 										</div>
 									</div>
@@ -160,10 +164,11 @@
 
 								<div class="row">
 									<div class="col-sm-12 text-secondary">
-										<input type="submit" class="btn btn-primary px-4 saveButton" value="+ Add" />
+										<input type="submit" class="btn btn-primary px-4 saveButton buttonBase" value="Add" />
 									</div>
 								</div>
 							</form>
+
 
 							<br /><br />
 
@@ -601,7 +606,29 @@
 				});
 		});
 	});
+
+	$('#category1').on('change', function() {
+        var categoryId = $(this).val();
+        if(categoryId) {
+            $.ajax({
+                url: '/get-subcategories/' + categoryId,
+                type: 'GET',
+                success: function(data) {
+                    $('#subcategory').empty();
+                    $('#subcategory').append('<option value="">- No subcategory -</option>');
+                    $.each(data, function(key, value) {
+                        $('#subcategory').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#subcategory').empty();
+            $('#subcategory').append('<option value="">- No subcategory -</option>');
+        }
+    });
 });
+
+   
 </script>
 
 @endsection

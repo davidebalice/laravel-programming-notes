@@ -20,7 +20,7 @@
     </div>
 
     <a href="{{ route('categories') }}">
-        <button class="btn btn-primary backButton">
+        <button class="btn btn-primary backButton buttonBase">
             < Back
         </button>
     </a>
@@ -34,37 +34,37 @@
                             <form id="myForm" method="post" action="{{ route('store.category') }}" enctype="multipart/form-data" >
                                 @csrf
 
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
+                                <div class="row mb-3" style="align-items: center">
+                                    <div class="col-sm-2">
                                         <h6 class="mb-0">Category name</h6>
                                     </div>
-                                    <div class="form-group col-sm-9 text-secondary">
+                                    <div class="form-group col-sm-10 text-secondary">
                                         <input type="text" name="name" class="form-control"   />
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
+                                <div class="row mb-3" style="align-items: center">
+                                    <div class="col-sm-2">
                                         <h6 class="mb-0">Image</h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col-sm-10 text-secondary">
                                         <input type="file" name="image" class="form-control"  id="image"   />
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <h6 class="mb-0"> </h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col-sm-10 text-secondary">
                                         <img id="showImage" src="{{ url('upload/no_image.jpg') }}" alt="Admin" style="width:100px; height: 100px;"  >
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="submit" class="btn btn-primary px-4" value="Save" />
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10 text-secondary">
+                                        <input type="submit" class="btn btn-primary px-4 buttonBase" value="Save" />
                                     </div>
                                 </div>
                             </form>

@@ -5,7 +5,7 @@
 <div class="page-content">
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="breadcrumb-title pe-3">Categories</div>
-        <div class="ps-3">
+        <div class="">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
@@ -14,24 +14,22 @@
                 </ol>
             </nav>
         </div>
-        <div class="ms-auto">
-            <div class="btn-group">
-                <a href="{{ route('add.category') }}" class="btn btn-primary">Add category</a> 				 
-            </div>
-        </div>
+    </div>
+    <div class="btn-group mb-4">
+        <a href="{{ route('add.category') }}" class="btn btn-primary buttonBase">
+            <i class="fa fa-plus-circle"></i>  <span>Add category</span>
+        </a>
     </div>
         
-    <hr/>
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="tableView" class="table table-striped table-bordered" style="width:100%">
+                <table id="tableView" class="table table-bordered tableView" style="width:100%">
                     <thead>
                         <tr>
                             <th>Image</th>
                             <th>Category</th>
-                            <th>Action</th> 
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,11 +50,13 @@
                         @foreach($categories as $key => $item)
                         <tr>
                             <td style="width:80px">
-                                @if (file_exists($item->image))
-                                    <img src="{{ asset($item->image) }}" style="width:70px;height:auto !important" >
-                                @else
-                                    <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:70px;"  >
-                                @endif
+                                <div class="imgIconContainer">
+                                    @if (file_exists($item->image))
+                                        <img src="{{ asset($item->image) }}" style="width:44px;height:auto !important" >
+                                    @else
+                                        <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:44px;"  >
+                                    @endif
+                                </div>
                             </td>
                             <td style="width:68%">
                                 <div class="categoryTitle2">

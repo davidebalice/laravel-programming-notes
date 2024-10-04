@@ -38,20 +38,28 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('add.note') }}">
+                <div class="parent-icon"><i class='fa fa-add'></i>
+                </div>
+                <div class="menu-title">Add note</div>
+            </a>
+        </li>
+        <li>
             <div class="sidemenu-line"></div>
         </li>
+        
         @php
             use App\Models\Category;
             $categories = Category::latest()->orderBy('name','asc')->get();
-        @endphp 
+        @endphp
 
         <li>
             @foreach($categories as $key => $item)
                 <a href="{{ route('notes', ['id' => $item->id]) }}" style="border-bottom:1px dashed #ddd">
                     @if (file_exists($item->image))
-                        <img src="{{ asset($item->image) }}" style="width: 40px;height:auto !important" >  
+                        <img src="{{ asset($item->image) }}" style="width: 30px;height:auto !important" >
                     @else
-                        <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:50px;"  >                 
+                        <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:30px;"  >
                     @endif
                     <div class="menu-title">{{ $item->name }}</div>
                 </a>

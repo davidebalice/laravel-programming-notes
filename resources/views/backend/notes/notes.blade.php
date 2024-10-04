@@ -20,10 +20,21 @@
 	<hr/>
 	<div class="ms-auto">
 		<div class="btn-group">
-			<a href="{{ route('add.note') }}" class="btn btn-primary addButton">+ Add note</a>
+			<a href="{{ route('add.note') }}" class="btn btn-primary addButton buttonBase"><i class="fa fa-plus-circle"></i> Add note</a>
 		</div>
 	</div>
-	<hr/>
+	
+
+	@php
+    $id = request()->query('id');
+
+    if ($id) {
+        echo "L'ID passato è: " . $id;
+    }
+	@endphp
+
+
+
 
 	<div class="card">
 		<div class="card-body">
@@ -31,9 +42,9 @@
 				<table id="tableView" class="table table-bordered tableView" style="width:100%">
 					<thead>
 					<tr>
-						<th style="width:150px">Category</th>
-						<th style="width:70%">Title</th>
-						<th>Action</th>
+						<th style="width:100px">Category</th>
+						<th style="width:90%">Title</th>
+						<th style="width:5%">Action</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -41,21 +52,23 @@
 							<tr>
 								<td>
 									<div class="categoryIconContainer">
-										@foreach($item->category1 as $category)
-											@if (file_exists($category->image))
-												<img src="{{ asset($category->image) }}" class="categoryIcon">  
-											@endif
-										@endforeach
+										<div class="imgIconContainer">
+											@foreach($item->category1 as $category)
+												@if (file_exists($category->image))
+													<img src="{{ asset($category->image) }}" class="categoryIcon">
+												@endif
+											@endforeach
+										</div>
 										@php
 											/*
 											@foreach($item->category2 as $category)
 											@if (file_exists($category->image))
-												<img src="{{ asset($category->image) }}" class="categoryIcon">  
+												<img src="{{ asset($category->image) }}" class="categoryIcon">
 											@endif
 											@endforeach
 											@foreach($item->category3 as $category)
 												@if (file_exists($category->image))
-													<img src="{{ asset($category->image) }}" class="categoryIcon">  
+													<img src="{{ asset($category->image) }}" class="categoryIcon">
 												@endif
 											@endforeach
 											*/
