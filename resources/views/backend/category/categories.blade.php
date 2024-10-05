@@ -43,7 +43,7 @@
                     @if ($totRecords==0)
                     <tr>
                         <td colspan="5">
-                            <h5 class="py-5 pl-4">No result</h5>
+                            <h6 class="py-5 pl-4">No result</h6>
                         </td>
                     </tr>
                     @endif
@@ -52,7 +52,7 @@
                             <td style="width:80px">
                                 <div class="imgIconContainer">
                                     @if (file_exists($item->image))
-                                        <img src="{{ asset($item->image) }}" style="width:44px;height:auto !important" >
+                                        <img src="{{ asset($item->image) }}" style="width:40px;height:auto !important" >
                                     @else
                                         <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:44px;"  >
                                     @endif

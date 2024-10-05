@@ -6,7 +6,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<div class="page-content">
+<div class="page-content pb-0 mb-0">
 	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 		<div class="breadcrumb-title pe-3">Detail</div>
 		<div class="ps-3">
@@ -28,15 +28,6 @@
             < Back
         </button>
     </a>
-
-	<form action="" method="GET">
-		<select name="language" id="language-selector">
-			<option value="javascript">JavaScript</option>
-			<option value="html">HTML</option>
-			<option value="css">CSS</option>
-		</select>
-		<input type="submit" value="Cambia lingua">
-	</form>
 </div>
 
 	<div id="editFormContainer" class="editFormContainer">
@@ -112,27 +103,35 @@
 
 							<div class="row mb-3">
 								<div class="col-12 titleDiv">
+									
 									@foreach($note->category1 as $category)
 										@if (file_exists($category->image))
-											<img src="{{ asset($category->image) }}" class="categoryIcon">  
+											<div class="imgIconContainer">
+												<img src="{{ asset($category->image) }}" class="categoryIcon">
+											</div>
 										@endif
 									@endforeach
+									
 									@foreach($note->category2 as $category)
 										@if (file_exists($category->image))
-											<img src="{{ asset($category->image) }}" class="categoryIcon">  
+											<div class="imgIconContainer">
+												<img src="{{ asset($category->image) }}" class="categoryIcon">
+											</div>
 										@endif
 									@endforeach
+
 									@foreach($note->category3 as $category)
 										@if (file_exists($category->image))
-											<img src="{{ asset($category->image) }}" class="categoryIcon">  
+											<div class="imgIconContainer">
+												<img src="{{ asset($category->image) }}" class="categoryIcon">
+											</div>
 										@endif
 									@endforeach
+
 									<h5>{{ $note->name }}
-									
 										<a onclick="$().openTitleForm()" class="openTitleForm">
 											<i class="bx bx bx-edit"></i>
 										</a>
-									
 									</h5>
 								</div>
 							</div>
@@ -169,9 +168,7 @@
 								</div>
 							</form>
 
-
-							<br /><br />
-
+							<br />
 
 							<div id="noteContainer">
 
@@ -230,10 +227,39 @@
 												<button class="btnCopy" id="btnCopy{{ $text->id }}" style="display:none">
 													<i class="bx bx-copy"></i><span id="btnCopyText{{ $text->id }}">Copy</span>
 												</button>
+												<select id="languageSelect{{ $text->id }}" style="display:none" class="languageSelect">
+													<option value="bat" @if ($text->editor=="bat") selected @endif>Batch</option>
+													<option value="c" @if ($text->editor=="c") selected @endif>C</option>
+													<option value="cpp" @if ($text->editor=="cpp") selected @endif>C++</option>
+													<option value="csharp" @if ($text->editor=="csharp") selected @endif>C#</option>
+													<option value="css" @if ($text->editor=="css") selected @endif>CSS</option>
+													<option value="dart" @if ($text->editor=="dart") selected @endif>Dart</option>
+													<option value="dockerfile" @if ($text->editor=="dockerfile") selected @endif>Dockerfile</option>
+													<option value="go" @if ($text->editor=="go") selected @endif>Go</option>
+													<option value="graphql" @if ($text->editor=="graphql") selected @endif>GraphQL</option>
+													<option value="handlebars" @if ($text->editor=="handlebars") selected @endif>Handlebars</option>
+													<option value="html" @if ($text->editor=="html") selected @endif>HTML</option>
+													<option value="ini" @if ($text->editor=="ini") selected @endif>INI</option>
+													<option value="java" @if ($text->editor=="java") selected @endif>Java</option>
+													<option value="javascript" @if ($text->editor=="javascript") selected @endif>JavaScript</option>
+													<option value="json" @if ($text->editor=="json") selected @endif>JSON</option>
+													<option value="kotlin" @if ($text->editor=="kotlin") selected @endif>Kotlin</option>
+													<option value="mysql" @if ($text->editor=="mysql") selected @endif>MySQL</option>
+													<option value="php" @if ($text->editor=="php") selected @endif>PHP</option>
+													<option value="plaintext" @if ($text->editor=="plaintext") selected @endif>Plain Text</option>
+													<option value="python" @if ($text->editor=="python") selected @endif>Python</option>
+													<option value="ruby" @if ($text->editor=="ruby") selected @endif>Ruby</option>
+													<option value="rust" @if ($text->editor=="rust") selected @endif>Rust</option>
+													<option value="scss" @if ($text->editor=="scss") selected @endif>SCSS</option>
+													<option value="sql" @if ($text->editor=="sql") selected @endif>SQL</option>
+													<option value="typescript" @if ($text->editor=="typescript") selected @endif>TypeScript</option>
+													<option value="vb" @if ($text->editor=="vb") selected @endif>Visual Basic</option>
+													<option value="xml" @if ($text->editor=="xml") selected @endif>XML</option>
+													<option value="yaml" @if ($text->editor=="yaml") selected @endif>YAML</option>
+												</select>
 											</div>
-											<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%;height: auto;min-height: 100px; overflow: hidden;"></div>
+											<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%;height: auto;min-height: 104px; overflow: hidden;"></div>
 											<textarea name="text" id="code{{ $text->id }}" class="form-control d-none">{!! $text->text !!}</textarea>
-
 										@endif
 									</div>
 								@endforeach
@@ -493,9 +519,12 @@
 				if(btnCopy){
 					btnCopy.css('display','flex');
 				}
+				const languageSelect = $('#languageSelect'+id);
+				if(languageSelect){
+					languageSelect.css('display','block');
+				}
 			}
 		})(jQuery);
-
 
        $('[data-toggle="tooltip"]').tooltip();
 	});
@@ -550,6 +579,40 @@
 				const editorDomNode = editor.getDomNode();
 				editorDomNode.style.height = `${newHeight}px`;
 				editor.layout();
+
+				$('#languageSelect'+id).on('change', function() {
+					let selectedLanguage = $(this).val();
+					monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+					
+					$.ajax({
+						url: '/save-editor-language',
+						method: 'POST',
+						data: {
+							id: id,
+							language: selectedLanguage,
+							_token: '{{ csrf_token() }}'
+						},
+						headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						success: function(response) {
+							if(response.message.includes("Demo")){
+								Swal.fire({
+									title: 'Demo mode',
+									text: response.message,
+									icon: 'error',
+									confirmButtonText: 'Ok'
+								});
+							}
+							else{
+								toastr.success(response.message);
+							}
+						},
+						error: function() {
+							alert('Saving error');
+						}
+					});
+				});
 			}
 
 			editor.onDidChangeModelContent(() => {

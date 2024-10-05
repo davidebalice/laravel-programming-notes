@@ -57,7 +57,9 @@
             @foreach($categories as $key => $item)
                 <a href="{{ route('notes', ['id' => $item->id]) }}" style="border-bottom:1px dashed #ddd">
                     @if (file_exists($item->image))
-                        <img src="{{ asset($item->image) }}" style="width: 30px;height:auto !important" >
+                        <div class="imgIconContainerMini">
+                            <img src="{{ asset($item->image) }}" style="width: 28px;height:auto !important" >
+                        </div>
                     @else
                         <img id="showImage" src="{{ asset('upload/no_image.jpg')}}" alt="Admin" style="width:30px;"  >
                     @endif

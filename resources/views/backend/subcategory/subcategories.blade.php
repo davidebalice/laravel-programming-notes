@@ -16,14 +16,12 @@
         </div>
     </div>
    
-
     <div class="categorySelectorContainer">
         <div>
             <a href="{{ route('add.subcategory') }}" class="btn btn-primary buttonBase" style="width:200px">
                 <i class="fa fa-plus-circle"></i>  <span>Add subcategory</span>
             </a>
         </div>
-
         <div> Category:</div>
         <div style="background: white">
             <select name="category_id" id="category_id" class="form-control" required>
@@ -38,7 +36,6 @@
                 @endforeach
             </select>
         </div>
-        
     </div>
    
     <div class="card">
@@ -62,7 +59,7 @@
                     @if ($totRecords==0)
                     <tr>
                         <td colspan="5">
-                            <h5 class="py-5 pl-4">No result</h5>
+                            <h6 class="py-5 pl-4">No result</h6>
                         </td>
                     </tr>
                     @endif

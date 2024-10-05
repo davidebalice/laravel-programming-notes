@@ -3,7 +3,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="page-content">
-	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+	<div class="page-breadcrumb d-none d-sm-flex align-items-center">
 		<div class="breadcrumb-title pe-3">Programming notes</div>
 		<div class="ps-3">
 			<nav aria-label="breadcrumb">
@@ -14,21 +14,42 @@
 				</ol>
 			</nav>
 		</div>
-		
 	</div>
 				 
-	<hr/>
+	<br />
 
 	<div class="ms-auto mb-3">
 		<div class="btn-group">
 			<a href="{{ route('add.note') }}" class="btn btn-primary addButton buttonBase"><i class="fa fa-plus-circle"></i> Add note</a>
 		</div>
+
+		@if ($allCategories)
+		<div class="btn-group categorySelectorWrapper">
+			<div class="categorySelectorContainer">
+				<div> Category:</div>
+				<div style="background: white">
+					<select name="category_id" id="category_id" class="form-control" required>
+						<option value="" disabled>Select Category</option>
+						@foreach($allCategories as $item)
+							<option value="{{ $item->id }}"
+							@if (isset($_GET['id']) && $_GET['id'] == $item->id)
+								selected
+							@endif
+							>
+							{{ $item->name }}</option>
+						@endforeach
+					</select>
+				</div>
+			</div>
+		</div>
+		@endif
+		
 		@if(isset($subcategories) && !$subcategories->isEmpty())
 			<div class="btn-group">
 				<div class="btn btn-primary addButton buttonBase" id="subcategoryButton"><i class="fa fa-caret-down"></i> Subcategories</div>
 			</div>
 		@endif
-	</div>
+</div>
 	
 
 	@if(isset($subcategories) && !$subcategories->isEmpty())
@@ -108,10 +129,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         setTimeout(() => {
             button.addEventListener('click', handleSubcategories);
-        }, 1000);
+        }, 700);
     }
+	
+	if(button){
+		button.addEventListener('click', handleSubcategories);
+	}
 
-    button.addEventListener('click', handleSubcategories);
+	const category_id = document.querySelector('#category_id');
+	category_id.addEventListener('change', event => {
+		const selectedValue = event.target.value;
+    	window.location.href = `/notes?id=${selectedValue}`;
+	});
+
 });
 </script>
 

@@ -73,7 +73,8 @@ class NoteController extends Controller
             $note->category2 = $category2;
             $note->category3 = $category3;
         }
-        return view('backend.notes.notes',compact('notes','subcategories'));
+        $allCategories = Category::orderBy('name', 'asc')->get();
+        return view('backend.notes.notes',compact('notes','allCategories','subcategories'));
     }
 
     public function Add(){
@@ -349,17 +350,14 @@ class NoteController extends Controller
             'id_note' => 'required|integer',
             'code' => 'required|string',
         ]);
-
-        
+       
         if (auth()->user()->isDemo()) {
             $notification = array(
                 'message' => 'Demo mode - crud operations are not allowed',
                 'alert-type' => 'error'
             );
-           //return redirect()->to('/view/note/' . $request->id_note)->with($notification);
            return response()->json(['success' => true, 'message' => 'Demo mode - crud operations are not allowed']);
         }
-
 
         $request->validate([
             'id' => 'required|integer',
@@ -449,5 +447,24 @@ class NoteController extends Controller
         Storage::disk('public')->put('autocomplete.js', $jsArray);
 
         $disk->put($filePath, $jsArray);
+    }
+
+    public function SaveLanguage(Request $request){
+        $id = $request->input('id');
+        $language = $request->input('language');
+
+        if (auth()->user()->isDemo()) {
+            $notification = array(
+                'message' => 'Demo mode - crud operations are not allowed',
+                'alert-type' => 'error'
+            );
+            return response()->json(['message' => $notification]);
+        }
+
+        Text::findOrFail($id)->update([
+            'editor' => $language
+        ]);
+
+        return response()->json(['message' => 'Language saved!']);
     }
 }

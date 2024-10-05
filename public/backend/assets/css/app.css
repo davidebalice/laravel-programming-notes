@@ -2683,6 +2683,7 @@ input.search-control-2::placeholder {
 .saveButton {
     background: #24ac16;
     border-color: #24ac16;
+    cursor: pointer;
 }
 .saveButton:hover {
     background: #37cf27;
@@ -2853,6 +2854,7 @@ input.search-control-2::placeholder {
     width: 30px;
     height: 30px;
     color: #333;
+    cursor: pointer;
     border-radius: 4px;
     display: flex;
     justify-content: center;
@@ -2911,6 +2913,13 @@ input.search-control-2::placeholder {
     text-align: center;
 }
 
+.imgIconContainerMini {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2px;
+    text-align: center;
+}
+
 .buttonBase {
     background: var(--primary-color);
     display: flex;
@@ -2918,6 +2927,7 @@ input.search-control-2::placeholder {
     align-items: center;
     padding: 8px 16px;
     border: none;
+    cursor: pointer;
 }
 
 .buttonBase:hover {
@@ -2926,6 +2936,7 @@ input.search-control-2::placeholder {
 
 .buttonBase i {
     font-size: 20px;
+    cursor: pointer;
 }
 
 .buttonBase span {
@@ -2948,6 +2959,12 @@ input.search-control-2::placeholder {
         no-repeat right 10px center;
     background-size: 12px;
     padding-right: 20px;
+}
+
+.categorySelectorWrapper {
+    margin-top: 21px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .openTitleForm i {
@@ -2984,6 +3001,10 @@ input.search-control-2::placeholder {
     text-align: left;
     padding: 0;
     margin: 0;
+    border: 1px solid #ddd;
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 20px;
 }
 
 #subCategoryContainer ul {
@@ -2997,12 +3018,29 @@ input.search-control-2::placeholder {
     list-style-type: none;
 }
 
+#subCategoryContainer a {
+    color: #333;
+}
+
+#subCategoryContainer a_hover {
+    color: #333;
+}
+
 #subCategoryContainer li {
     padding: 0;
     margin: 0;
     width: 150px;
+    color: #333;
     white-space: nowrap;
     margin-bottom: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.languageSelect {
+    margin-top: 4px;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 2px;
+    width: 132px;
 }

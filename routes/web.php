@@ -66,6 +66,7 @@ Route::middleware('auth','role:admin')->group(function () {
         Route::get('/edit/note/{id}' , 'Edit')->name('edit.note');
        
         Route::group(['middleware' => ['demo_mode']], function () {
+            Route::post('/save-editor-language', 'SaveLanguage')->name('save.language');
             Route::post('/store/note' , 'Store')->name('store.note');
             Route::post('/store/note/text/' , 'StoreText')->name('store.text');
             Route::post('/update/note' , 'UpdateNote')->name('update.note');
