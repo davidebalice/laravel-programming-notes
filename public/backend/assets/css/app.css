@@ -2805,12 +2805,10 @@ input.search-control-2::placeholder {
 
 .buttonContainerNotes {
     display: flex;
-    position: absolute;
     right: 10px;
     align-items: center;
     gap: 14px;
     width: fit-content;
-    width: 100px;
     margin-top: 1px;
 }
 
@@ -2979,4 +2977,32 @@ input.search-control-2::placeholder {
     min-height: 400px;
     overflow: hidden;
     border: 1px solid #ddd;
+}
+
+#subCategoryContainer {
+    display: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+#subCategoryContainer ul {
+    display: flex;
+    gap: 16px;
+    justify-content: start;
+    text-align: left;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+#subCategoryContainer li {
+    padding: 0;
+    margin: 0;
+    width: 150px;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

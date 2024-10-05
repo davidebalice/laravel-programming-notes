@@ -7,21 +7,25 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Note;
 use App\Models\Text;
-use App\Models\User;
-use Carbon\Carbon;
-use Intervention\Image\Facades\Image As Image;
 use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
 {
     public function Notes(Request $request){
         $category = $request->input('id');
+        $subcategory = $request->input('subcategory_id');
         $searchText = $request->input('search');
-      
         $notes = Note::latest();
-
+       
+        $subcategories = null;
+        
+        $subcategories = Subcategory::where('category_id', $category)->get();
+        
         if ($category) {
             $notes->where('categories', 'LIKE', '%"' . $category . '"%');
+        }
+        if ($subcategory) {
+            $notes->where('subcategory_id',$subcategory);
         }
 
         if ($searchText) {
@@ -69,8 +73,7 @@ class NoteController extends Controller
             $note->category2 = $category2;
             $note->category3 = $category3;
         }
-        
-        return view('backend.notes.notes',compact('notes'));
+        return view('backend.notes.notes',compact('notes','subcategories'));
     }
 
     public function Add(){

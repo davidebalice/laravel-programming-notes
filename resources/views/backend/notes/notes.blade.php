@@ -18,23 +18,28 @@
 	</div>
 				 
 	<hr/>
-	<div class="ms-auto">
+
+	<div class="ms-auto mb-3">
 		<div class="btn-group">
 			<a href="{{ route('add.note') }}" class="btn btn-primary addButton buttonBase"><i class="fa fa-plus-circle"></i> Add note</a>
 		</div>
+		@if(isset($subcategories) && !$subcategories->isEmpty())
+			<div class="btn-group">
+				<div class="btn btn-primary addButton buttonBase" id="subcategoryButton"><i class="fa fa-caret-down"></i> Subcategories</div>
+			</div>
+		@endif
 	</div>
 	
 
-	@php
-    $id = request()->query('id');
-
-    if ($id) {
-        echo "L'ID passato è: " . $id;
-    }
-	@endphp
-
-
-
+	@if(isset($subcategories) && !$subcategories->isEmpty())
+		<ul id="subCategoryContainer">
+			<ul>
+				@foreach($subcategories as $subcategory)
+					<li><a href="{{ route('notes', ['id' => $subcategory->category_id,'subcategory_id' => $subcategory->id]) }}">{{ $subcategory->name }}</a></li>
+				@endforeach
+			</ul>
+		</ul>
+	@endif
 
 	<div class="card">
 		<div class="card-body">
@@ -43,8 +48,8 @@
 					<thead>
 					<tr>
 						<th style="width:100px">Category</th>
-						<th style="width:90%">Title</th>
-						<th style="width:5%">Action</th>
+						<th style="width:80%">Title</th>
+						<th style="width:10%">Action</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -59,21 +64,6 @@
 												@endif
 											@endforeach
 										</div>
-										@php
-											/*
-											@foreach($item->category2 as $category)
-											@if (file_exists($category->image))
-												<img src="{{ asset($category->image) }}" class="categoryIcon">
-											@endif
-											@endforeach
-											@foreach($item->category3 as $category)
-												@if (file_exists($category->image))
-													<img src="{{ asset($category->image) }}" class="categoryIcon">
-												@endif
-											@endforeach
-											*/
-										@endphp
-										
 									</div>
 								</td>
 								<td>
@@ -98,5 +88,31 @@
 		</div>
 	</div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const button = document.getElementById('subcategoryButton');
+
+    function handleSubcategories() {
+		const visibility = $('#subCategoryContainer').css('display');
+
+		$('#subCategoryContainer').slideToggle();
+
+		if(visibility=="none"){
+			button.innerHTML = '<i class="fa fa-caret-up"></i> Subcategories';
+		}else{
+			button.innerHTML = '<i class="fa fa-caret-down"></i> Subcategories';
+		}
+
+        button.removeEventListener('click', handleSubcategories);
+
+        setTimeout(() => {
+            button.addEventListener('click', handleSubcategories);
+        }, 1000);
+    }
+
+    button.addEventListener('click', handleSubcategories);
+});
+</script>
 
 @endsection

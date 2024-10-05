@@ -129,7 +129,7 @@
 									@endforeach
 									<h5>{{ $note->name }}
 									
-										<a href="#" onclick="$().openTitleForm()" class="openTitleForm">
+										<a onclick="$().openTitleForm()" class="openTitleForm">
 											<i class="bx bx bx-edit"></i>
 										</a>
 									
@@ -185,13 +185,13 @@
 									<div class="noteRow">
 										@if ($text->type === "text")
 												<div class="buttonContainerText">
-													<a href="#" onclick="$().showButtons({{$text->id}})" class="buttonBox buttonBoxText buttonBoxShow" id="buttonShowBox{{$text->id}}">
+													<a onclick="$().showButtons({{$text->id}})" class="buttonBox buttonBoxText buttonBoxShow" id="buttonShowBox{{$text->id}}">
 														<i class="bx bx-edit" data-toggle="tooltip" title="Edit show"></i>
 													</a>
 												</div>
 
 												<div class="buttonContainerText" id="buttonsBox{{$text->id}}" style="display:none">
-													<a href="#" onclick="$().openEditForm({{$text->id}})" class="buttonBox buttonBoxText">
+													<a onclick="$().openEditForm({{$text->id}})" class="buttonBox buttonBoxText">
 														<i class="bx bx-edit" data-toggle="tooltip" title="Edit"></i>
 													</a>
 													<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox buttonBoxText">
@@ -209,12 +209,12 @@
 										@else
 											<div class="buttonWrapper">
 												<div class="buttonContainer">
-													<a href="#" onclick="$().showButtons({{$text->id}})" class="buttonBox " id="buttonShowBox{{$text->id}}">
+													<a onclick="$().showButtons({{$text->id}})" class="buttonBox " id="buttonShowBox{{$text->id}}">
 														<i class="bx bx-edit" data-toggle="tooltip" title="Edit show"></i>
 													</a>
 												</div>
 												<div class="buttonContainer" id="buttonsBox{{$text->id}}" style="display:none">
-													<a href="#" onclick="$().saveCode({{$text->id}},{{$text->note_id}})" class="buttonBox">
+													<a onclick="$().saveCode({{$text->id}},{{$text->note_id}})" class="buttonBox">
 														<i class="bx bx-save" data-toggle="tooltip" title="Save"></i>
 													</a>
 													<a href="{{ route('note.up', ['note_id' => $text->note_id, 'text_id' => $text->id]) }}" class="buttonBox">
