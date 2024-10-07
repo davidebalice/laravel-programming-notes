@@ -20,11 +20,7 @@ yarn-error.log
 *.txt
 config.php
 config*.*
-*.jpg
-*.png
-*.jpeg
 *.sql
-*.gif
 *.log
 *.xml
 *.xls
