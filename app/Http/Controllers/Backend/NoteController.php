@@ -184,10 +184,16 @@ class NoteController extends Controller
         else{
             $new_order=1;
         }
+
+        $formattedText = $request->text;
+        
+        if($request->type=="text"){
+            $formattedText = nl2br(e($request->text));
+        }
         
         $note_id = Text::insert([
             'note_id' => $request->id,
-            'text' => $request->text,
+            'text' => $formattedText,
             'type' => $request->type,
             'order' => $new_order,
             'created_at' => now(),
@@ -200,7 +206,6 @@ class NoteController extends Controller
         $this->reorderTexts($request->id);
         return redirect()->to('/view/note/' . $request->id)->with($notification);
     }
-
 
     public function Up($note_id, $text_id)
     {
