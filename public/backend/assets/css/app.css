@@ -2650,6 +2650,10 @@ input.search-control-2::placeholder {
 }
 .categoryTitle {
     font-size: 16px;
+    color: #333;
+}
+.categoryTitle:hover {
+    color: var(--primary-color);
 }
 .categoryTitle2 {
     font-size: 17px;

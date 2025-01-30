@@ -260,6 +260,7 @@
 											</div>
 											<div id="monaco-editor{{ $text->id }}"  data-textarea-id="code{{ $text->id }}" class="monaco-editor-container" style="width:100%;height: auto;min-height: 104px; overflow: hidden;"></div>
 											<textarea name="text" id="code{{ $text->id }}" class="form-control d-none">{!! $text->text !!}</textarea>
+											<input type="hidden" id="editor{{ $text->id }}" value="{{ $text->editor }}">
 										@endif
 									</div>
 								@endforeach
@@ -455,7 +456,22 @@
 
 				if (!window.editor) {
 					window.editor = new Quill('#editTextareaDiv', {
-						theme: 'snow'
+						theme: 'snow',
+						modules: {
+						toolbar: [
+							["bold", "italic", "underline", "strike", "font", "link", "image"],
+							[{ table: true }],
+							['blockquote'],
+							['code-block'],
+							[{ 'font': [] }],
+							[{ 'size': ['small', 'medium', 'large', 'huge'] }],
+							[{ 'color': [] }, { 'background': [] }],
+							[{ 'align': [] }],
+							['unordered', 'ordered'],
+							[{ 'list': 'ordered' }, { 'list': 'bullet' }],
+						]
+						
+					}
 					});
 
 					var quillEditor = document.getElementById('editTextarea');
@@ -539,10 +555,11 @@
                 const textareaId = editorContainer.dataset.textareaId;
                 const initialValue = document.getElementById(textareaId).value || '';
 				const id = textareaId.replace('code','');
+				const editorLanguage = document.getElementById('editor'+id).value || 'javascript';
 
                 const editor = monaco.editor.create(editorContainer, {
                     value: initialValue,
-                    language: 'javascript',
+                    language: editorLanguage,
 					automaticLayout: true,
 					minimap: {enabled: false},
 					scrollBeyondLastLine: false,

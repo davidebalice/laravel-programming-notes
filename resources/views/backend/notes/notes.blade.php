@@ -88,7 +88,9 @@
 									</div>
 								</td>
 								<td>
-									<p class="categoryTitle">{{ $item->name }}</p>
+									<a href="{{ route('view.note',$item->id) }}">
+										<p class="categoryTitle">{{ $item->name }}</p>
+									</a>
 								</td>
 								<td>
 									<div class="buttonContainerNotes">

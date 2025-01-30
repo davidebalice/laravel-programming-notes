@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "nouislider": "^15.7.0"
+        "nouislider": "^15.7.0",
+        "quill-better-table": "^1.2.10"
     }
 }

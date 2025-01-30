@@ -15,7 +15,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a href="{{ route('add.admin') }}" class="btn btn-primary">Add admin</a> 				 
+                <a href="{{ route('add.admin') }}" class="btn btn-primary">Add admin</a>
             </div>
         </div>
     </div>
@@ -32,12 +32,12 @@
                             <th>Surname name </th>
                             <th>Email </th>
                             <th>Phone </th>
-                            <th>Role </th> 
-                            <th>Action</th> 
+                            <th>Role </th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($alladminuser as $key => $item)		
+                        @foreach($alladminuser as $key => $item)
                         <tr>
                             <td> <img src="{{ (!empty($item->photo)) ? url('upload/admin/'.$item->photo):url('upload/no_image.jpg') }}" style="width: 100px;" >  </td>
                             <td>{{ $item->surname }} {{ $item->name }}</td>
