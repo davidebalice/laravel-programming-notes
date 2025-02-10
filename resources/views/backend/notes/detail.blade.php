@@ -3,6 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.31.1/min/vs/loader.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill-better-table@1.2.0/dist/quill-better-table.min.js"></script>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -277,9 +278,15 @@
 
 <script type="text/javascript">
 	let editorCode = null;
-
+/*
+	document.addEventListener("DOMContentLoaded", function () {
+        if (window.Quill && window.QuillBetterTable) {
+			Quill.register('modules/better-table', window.QuillBetterTable);
+		}
+	});
+*/
     $(document).ready(function (){
-		
+
         $('#addForm').validate({
             rules: {
                 name: {
@@ -458,20 +465,25 @@
 					window.editor = new Quill('#editTextareaDiv', {
 						theme: 'snow',
 						modules: {
-						toolbar: [
-							["bold", "italic", "underline", "strike", "font", "link", "image"],
-							[{ table: true }],
-							['blockquote'],
-							['code-block'],
-							[{ 'font': [] }],
-							[{ 'size': ['small', 'medium', 'large', 'huge'] }],
-							[{ 'color': [] }, { 'background': [] }],
-							[{ 'align': [] }],
-							['unordered', 'ordered'],
-							[{ 'list': 'ordered' }, { 'list': 'bullet' }],
-						]
-						
-					}
+							toolbar: [
+								["bold", "italic", "underline", "strike", "font", "link", "image"],
+								[{ table: true }],
+								
+								['blockquote'],
+								['code-block'],
+								[{ 'font': [] }],
+								[{ 'size': ['small', 'medium', 'large', 'huge'] }],
+								[{ 'color': [] }, { 'background': [] }],
+								[{ 'align': [] }],
+								['unordered', 'ordered'],
+								[{ 'list': 'ordered' }, { 'list': 'bullet' }],
+							],
+							'better-table': {
+								operationMenu: {
+									items: ['insertRowAbove', 'insertRowBelow', 'insertColumnLeft', 'insertColumnRight', 'deleteRow', 'deleteColumn', 'deleteTable']
+								}
+							},
+						}
 					});
 
 					var quillEditor = document.getElementById('editTextarea');

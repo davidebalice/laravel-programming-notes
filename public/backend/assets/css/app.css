@@ -3048,3 +3048,12 @@ input.search-control-2::placeholder {
     padding: 2px;
     width: 132px;
 }
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-item.active .page-link:hover {
+    background-color: var(--primary-color-hover);
+}

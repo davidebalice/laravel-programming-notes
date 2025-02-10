@@ -5,18 +5,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Intervention\Image\Facades\Image As Image;
- 
+
 class CategoryController extends Controller
 {
+    // Metodo per ottenere tutte le categorie ordinate per nome
     public function Categories(){
         $categories = Category::orderBy('name')->get();
         return view('backend.category.categories',compact('categories'));
     }
 
+    // Metodo per visualizzare la pagina di aggiunta di una nuova categoria
     public function Add(){
         return view('backend.category.add');
     }
 
+    // Metodo per salvare una nuova categoria
     public function Store(Request $request){
         if (auth()->user()->isDemo()) {
             $notification = array(
@@ -27,7 +30,7 @@ class CategoryController extends Controller
         }
 
         $image = $request->file('image');
-        $save_url=null;
+        $save_url = null;
         if($image)
         {
             $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
@@ -52,11 +55,13 @@ class CategoryController extends Controller
         return redirect()->route('categories')->with($notification); 
     }
 
+    // Metodo per visualizzare la pagina di modifica di una categoria
     public function Edit($id){
         $category = Category::findOrFail($id);
         return view('backend.category.edit',compact('category'));
     }
 
+    // Metodo per aggiornare una categoria esistente
     public function Update(Request $request){
         if (auth()->user()->isDemo()) {
             $notification = array(
@@ -81,16 +86,16 @@ class CategoryController extends Controller
             $save_url = 'upload/category/'.$name_gen;
 
             if (file_exists($old_img)) {
-            unlink($old_img);
-        }
+                unlink($old_img);
+            }
         
-        Category::findOrFail($cat_id)->update([
-            'name' => $request->name,
-            'slug' => strtolower(str_replace(' ', '-',$request->name)),
-            'image' => $save_url, 
-        ]);
+            Category::findOrFail($cat_id)->update([
+                'name' => $request->name,
+                'slug' => strtolower(str_replace(' ', '-',$request->name)),
+                'image' => $save_url, 
+            ]);
 
-        $notification = array(
+            $notification = array(
                 'message' => 'Category updated',
                 'alert-type' => 'success'
             );
@@ -100,20 +105,20 @@ class CategoryController extends Controller
         } else {
 
             Category::findOrFail($cat_id)->update([
-            'name' => $request->name,
-            'slug' => strtolower(str_replace(' ', '-',$request->name)), 
-        ]);
+                'name' => $request->name,
+                'slug' => strtolower(str_replace(' ', '-',$request->name)), 
+            ]);
 
-       $notification = array(
-            'message' => 'Category updated',
-            'alert-type' => 'success'
-        );
+            $notification = array(
+                'message' => 'Category updated',
+                'alert-type' => 'success'
+            );
 
-        return redirect()->route('categories')->with($notification); 
-
+            return redirect()->route('categories')->with($notification); 
         }
     }
 
+    // Metodo per eliminare una categoria
     public function Delete($id){
         if (auth()->user()->isDemo()) {
             $notification = array(
@@ -139,6 +144,7 @@ class CategoryController extends Controller
         return redirect()->back()->with($notification); 
     }
 
+    // Metodo per attivare/disattivare una categoria
     public function Active(Request $request, $id){
         try {
             $category = Category::findOrFail($id);
@@ -151,7 +157,8 @@ class CategoryController extends Controller
         }
     }
 
-    public function Sort($action,$id) {
+    // Metodo per ordinare le categorie
+    public function Sort($action, $id) {
         if (auth()->user()->isDemo()) {
             $notification = array(
                 'message' => 'Demo mode - crud operations are not allowed',
@@ -164,26 +171,24 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $order = $category->position;
         
-        if($action=="up")
-		{
+        if($action == "up")
+        {
             $order--;
-            $newOrder=$order+1;
+            $newOrder = $order + 1;
         }
-        elseif($action=="down")
-		{
+        elseif($action == "down")
+        {
             $order++;
-            $newOrder=$order-1;
+            $newOrder = $order - 1;
         }
-        if($order<=1)
+        if($order <= 1)
         {
-            $order=1;
+            $order = 1;
         }
-        if($newOrder<=1)
+        if($newOrder <= 1)
         {
-            $newOrder=1;
+            $newOrder = 1;
         }
-        
-        //->whereNull('deleted_at')
 
         Category::where('position', $order)
         ->chunkById(100, function ($update) use ($newOrder) {
@@ -196,7 +201,7 @@ class CategoryController extends Controller
         Category::where('id', $id)
         ->update(['position' => $order]);
 
-        $i=0;
+        $i = 0;
         Category::orderby('position','ASC')
         ->chunkById(100, function ($update) use ($i) {
             foreach ($update as $category) {
@@ -208,4 +213,4 @@ class CategoryController extends Controller
         $categories = Category::orderby('position','ASC')->paginate(15);
         return view('backend.category.categories',compact('categories'));
     }
-} 
+}

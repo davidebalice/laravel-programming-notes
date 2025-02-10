@@ -65,6 +65,7 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="table-responsive">
+				<div style="float: right">{{ $notes->links() }}</div>
 				<table id="tableView" class="table table-bordered tableView" style="width:100%">
 					<thead>
 					<tr>

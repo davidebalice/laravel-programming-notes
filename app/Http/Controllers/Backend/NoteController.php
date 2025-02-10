@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
 {
+    // Metodo per ottenere le note filtrate per categoria, sottocategoria e testo di ricerca
     public function Notes(Request $request){
         $category = $request->input('id');
         $subcategory = $request->input('subcategory_id');
@@ -36,8 +37,12 @@ class NoteController extends Controller
             });
         }
 
-        $notes = $notes->paginate(20);
+        //imposta paginazione a 20 risultati per pagina, ed appende la categoria se presente
+        $notes = $notes->paginate(20)->appends([
+            'id' => $category,
+        ]);
 
+        // Assegna le categorie alle note
         foreach ($notes as $note) {
             $category1 = [];
             $category2 = [];
@@ -77,6 +82,7 @@ class NoteController extends Controller
         return view('backend.notes.notes',compact('notes','allCategories','subcategories'));
     }
 
+    // Metodo per visualizzare la pagina di aggiunta di una nuova nota
     public function Add(){
         $categories = Category::orderBy('name', 'asc')->get();
         $firstCategory = Category::orderBy('name')->first();
@@ -85,6 +91,7 @@ class NoteController extends Controller
         return view('backend.notes.add',compact('categories','subcategories'));
     }
 
+    // Metodo per salvare una nuova nota
     public function Store(Request $request){
 
         if (auth()->user()->isDemo()) {
@@ -124,6 +131,7 @@ class NoteController extends Controller
         return redirect()->route('notes')->with($notification); 
     }
 
+    // Metodo per visualizzare i dettagli di una nota
     public function Detail($id){
         $note = Note::findOrFail($id);
         $texts = Text::where('note_id', $id)->orderBy('order', 'asc')->get();
@@ -168,6 +176,7 @@ class NoteController extends Controller
         return view('backend.notes.detail',compact('note','texts','categories','subcategories'));
     }
 
+    // Metodo per salvare un nuovo testo associato a una nota
     public function StoreText(Request $request){
         if (auth()->user()->isDemo()) {
             $notification = array(
@@ -207,6 +216,7 @@ class NoteController extends Controller
         return redirect()->to('/view/note/' . $request->id)->with($notification);
     }
 
+    // Metodo per spostare un testo verso l'alto nell'ordine
     public function Up($note_id, $text_id)
     {
         if (auth()->user()->isDemo()) {
@@ -237,6 +247,7 @@ class NoteController extends Controller
         return redirect()->back()->with('success', 'Order updated');
     }
 
+    // Metodo per spostare un testo verso il basso nell'ordine
     public function Down($note_id, $text_id)
     {
         if (auth()->user()->isDemo()) {
@@ -267,6 +278,7 @@ class NoteController extends Controller
         return redirect()->back()->with('success', 'Ordine updated');
     }
 
+    // Metodo per riordinare i testi di una nota
     private function reorderTexts($note_id)
     {
         $texts = Text::where('note_id', $note_id)
@@ -281,11 +293,13 @@ class NoteController extends Controller
         }
     }
 
+    // Metodo per visualizzare la pagina di modifica di una nota
     public function Edit($id){
         $notes = Note::findOrFail($id);
         return view('backend.notes.edit',compact('notes'));
     }
 
+    // Metodo per aggiornare una nota esistente
     public function UpdateNote(Request $request){
 
             if (auth()->user()->isDemo()) {
@@ -325,6 +339,7 @@ class NoteController extends Controller
         return redirect()->to('view/note/'.$note_id)->with($notification); 
     }
 
+    // Metodo per aggiornare un testo esistente
     public function UpdateText(Request $request){
             if (auth()->user()->isDemo()) {
                 $notification = array(
@@ -348,6 +363,7 @@ class NoteController extends Controller
         return redirect()->to('view/note/'.$note_id)->with($notification); 
     }
 
+    // Metodo per salvare il codice di un testo
     public function SaveCode(Request $request)
     {
         $request->validate([
@@ -384,6 +400,7 @@ class NoteController extends Controller
         return response()->json(['success' => false, 'message' => 'Note not found.'], 404);
     }
 
+    // Metodo per eliminare una nota
     public function Delete($id){
         if (auth()->user()->isDemo()) {
             $notification = array(
@@ -407,6 +424,7 @@ class NoteController extends Controller
         return redirect()->back()->with($notification);
     }
 
+    // Metodo per eliminare un testo associato a una nota
     public function DeleteText($note_id, $text_id){
         if (auth()->user()->isDemo()) {
             $notification = array(
@@ -436,6 +454,7 @@ class NoteController extends Controller
         return redirect()->back()->with($notification);
     }
 
+    // Metodo per aggiornare l'autocompletamento dei nomi delle note
     private function Autocomplete(){
         $names = Note::pluck('name')->toArray();
         $names = array_unique($names);
@@ -454,6 +473,7 @@ class NoteController extends Controller
         $disk->put($filePath, $jsArray);
     }
 
+    // Metodo per salvare la lingua dell'editor di testo
     public function SaveLanguage(Request $request){
         $id = $request->input('id');
         $language = $request->input('language');
